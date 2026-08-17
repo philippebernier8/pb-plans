@@ -2,37 +2,38 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex"/>
-<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex"/>
 <meta name="referrer" content="no-referrer"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Nathan Lacroix - Plan d'entraînement technique</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --blue: #3b82f6;
-    --blue-dim: rgba(59,130,246,0.12);
-    --blue-border: rgba(59,130,246,0.25);
-    --green: #10b981;
-    --green-dim: rgba(16,185,129,0.10);
+    --blue:         #3b82f6;
+    --blue-dim:     rgba(59,130,246,0.12);
+    --blue-border:  rgba(59,130,246,0.25);
+    --green:        #10b981;
+    --green-dim:    rgba(16,185,129,0.10);
     --green-border: rgba(16,185,129,0.22);
-    --purple: #8b5cf6;
-    --purple-dim: rgba(139,92,246,0.10);
-    --purple-border: rgba(139,92,246,0.22);
-    --amber: #f59e0b;
-    --slate: #6b7280;
-    --card: rgba(30,41,59,0.62);
-    --card-border: rgba(100,116,139,0.18);
-    --text-hi: #f1f5f9;
-    --text-mid: #cbd5e1;
-    --text-lo: #94a3b8;
-    --text-muted: #64748b;
-    --text-footer: #475569;
+    --purple:       #8b5cf6;
+    --purple-dim:   rgba(139,92,246,0.10);
+    --purple-border:rgba(139,92,246,0.22);
+    --amber:        #f59e0b;
+    --amber-dim:    rgba(245,158,11,0.10);
+    --amber-border: rgba(245,158,11,0.22);
+    --cyan:         #0ea5e9;
+    --cyan-dim:     rgba(14,165,233,0.10);
+    --cyan-border:  rgba(14,165,233,0.22);
+    --slate:        #6b7280;
+    --card:         rgba(30,41,59,0.62);
+    --card-border:  rgba(100,116,139,0.18);
+    --text-hi:      #f1f5f9;
+    --text-mid:     #cbd5e1;
+    --text-lo:      #94a3b8;
+    --text-muted:   #64748b;
+    --text-footer:  #475569;
   }
-
   html { font-size: 16px; -webkit-text-size-adjust: 100%; }
-
   body {
     min-height: 100vh;
     background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
@@ -42,146 +43,226 @@
     position: relative;
     overflow-x: hidden;
   }
-
   body::before {
     content: '';
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(59,130,246,0.07) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(16,185,129,0.06) 0%, transparent 70%);
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(14,165,233,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 70%);
   }
-
-  .shell { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 28px 18px 48px; }
-
+  .shell {
+    position: relative; z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 18px 48px;
+  }
+  /* ─── HEADER ─── */
   .header { text-align: center; margin-bottom: 26px; }
   .badge {
     display: inline-block;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    border-radius: 10px; padding: 5px 18px;
+    background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    border-radius: 10px;
+    padding: 5px 18px;
     font-size: 10px; font-weight: 700;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: #fff; margin-bottom: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 14px;
   }
   .header h1 {
     font-size: 28px; font-weight: 800;
     background: linear-gradient(135deg, #f1f5f9, #94a3b8);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    letter-spacing: -0.5px; line-height: 1.2;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
   }
-  .header .sub { color: var(--text-lo); font-size: 13px; margin-top: 6px; font-weight: 500; }
+  .header .sub { color: var(--text-lo);    font-size: 13px; margin-top: 6px; font-weight: 500; }
   .header .det { color: var(--text-muted); font-size: 12px; margin-top: 3px; }
-
+  /* ─── TAB RAIL ─── */
   .tab-rail {
     display: flex; gap: 5px;
     background: rgba(30,41,59,0.7);
     border: 1px solid rgba(100,116,139,0.15);
-    border-radius: 14px; padding: 5px; margin-bottom: 22px;
-    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
   .tab-rail::-webkit-scrollbar { display: none; }
   .tab-btn {
-    flex: 0 0 auto; background: transparent; border: none; border-radius: 10px;
-    color: var(--text-lo); font-size: 12px; font-weight: 600;
-    padding: 8px 14px; cursor: pointer; white-space: nowrap;
+    flex: 0 0 auto;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--text-lo);
+    font-size: 12px; font-weight: 600;
+    padding: 8px 14px;
+    cursor: pointer;
+    white-space: nowrap;
     transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   }
-  .tab-btn:hover { background: rgba(59,130,246,0.12); color: #fff; }
+  .tab-btn:hover  { background: rgba(14,165,233,0.12); color: #fff; }
   .tab-btn.active {
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
-    color: #fff; box-shadow: 0 2px 10px rgba(59,130,246,0.3);
+    background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(14,165,233,0.3);
   }
-
+  /* ─── PANELS ─── */
   .panel { display: none; animation: fadeIn 0.22s ease; }
   .panel.active { display: block; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
-
-  .info-box { border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 13px; line-height: 1.55; }
+  /* ─── INFO BOXES ─── */
+  .info-box {
+    border-radius: 12px; padding: 14px 18px; margin-bottom: 18px;
+    font-size: 13px; line-height: 1.55;
+  }
   .info-box.blue   { background: var(--blue-dim);   border: 1px solid var(--blue-border);   color: #93c5fd; }
   .info-box.green  { background: var(--green-dim);  border: 1px solid var(--green-border);  color: #6ee7b7; }
   .info-box.purple { background: var(--purple-dim); border: 1px solid var(--purple-border); color: #a78bfa; }
-
-  .rotation-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
-  .rotation-bar .rot-label { font-size: 12px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-  .rot-btn {
-    background: rgba(30,41,59,0.7); border: 1px solid rgba(100,116,139,0.25);
-    border-radius: 8px; color: var(--text-lo); font-size: 12px; font-weight: 600;
-    padding: 5px 14px; cursor: pointer;
-    transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s;
+  .info-box.amber  { background: var(--amber-dim);  border: 1px solid var(--amber-border);  color: #fbbf24; }
+  .info-box.cyan   { background: var(--cyan-dim);   border: 1px solid var(--cyan-border);   color: #22d3ee; }
+  /* ─── PHASE SELECTOR ─── */
+  .phase-selector {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 18px; flex-wrap: wrap;
   }
-  .rot-btn:hover { border-color: rgba(59,130,246,0.4); color: #fff; }
-  .rot-btn.active { background: rgba(59,130,246,0.18); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 8px rgba(59,130,246,0.2); }
-
+  .phase-selector .ps-label { font-size: 12px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; width: 100%; text-align: center; margin-bottom: 4px; }
+  .phase-btn {
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(100,116,139,0.25);
+    border-radius: 10px;
+    color: var(--text-lo);
+    font-size: 12px; font-weight: 600;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+  }
+  .phase-btn:hover { color: #fff; }
+  .phase-btn .pb-weeks { font-size: 10px; opacity: 0.7; display: block; margin-top: 1px; }
+  .phase-btn[data-phase="0"] { border-color: rgba(14,165,233,0.3); }
+  .phase-btn[data-phase="0"]:hover,
+  .phase-btn[data-phase="0"].active {
+    background: rgba(14,165,233,0.18); border-color: var(--cyan); color: var(--cyan);
+    box-shadow: 0 0 8px rgba(14,165,233,0.2);
+  }
+  .phase-btn[data-phase="1"] { border-color: rgba(245,158,11,0.3); }
+  .phase-btn[data-phase="1"]:hover,
+  .phase-btn[data-phase="1"].active {
+    background: rgba(245,158,11,0.18); border-color: var(--amber); color: var(--amber);
+    box-shadow: 0 0 8px rgba(245,158,11,0.2);
+  }
+  .phase-btn[data-phase="2"] { border-color: rgba(16,185,129,0.3); }
+  .phase-btn[data-phase="2"]:hover,
+  .phase-btn[data-phase="2"].active {
+    background: rgba(16,185,129,0.18); border-color: var(--green); color: var(--green);
+    box-shadow: 0 0 8px rgba(16,185,129,0.2);
+  }
+  /* phase info strip */
+  .phase-strip {
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+    font-size: 12px; line-height: 1.5; display: none;
+  }
+  .phase-strip.active { display: block; }
+  .phase-strip.p0 { background: var(--cyan-dim);   border: 1px solid var(--cyan-border);   color: #22d3ee; }
+  .phase-strip.p1 { background: var(--amber-dim);  border: 1px solid var(--amber-border);  color: #fbbf24; }
+  .phase-strip.p2 { background: var(--green-dim);  border: 1px solid var(--green-border);  color: #6ee7b7; }
+  .phase-strip strong { font-weight: 700; }
+  /* ─── WEEKLY ROWS ─── */
   .week-row {
-    display: flex; align-items: center; gap: 12px;
+    display: grid;
+    grid-template-columns: 90px 120px 1fr 110px;
+    align-items: center;
+    gap: 10px;
     border-radius: 12px; padding: 11px 14px;
-    border: 1px solid transparent; transition: border-color 0.15s;
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
   }
   .week-row:hover { border-color: rgba(100,116,139,0.25); }
-  .week-row.video { background: rgba(59,130,246,0.07); border-color: rgba(59,130,246,0.18); }
-  .week-row.self  { background: rgba(16,185,129,0.07); border-color: rgba(16,185,129,0.18); }
-  .week-row.rest  { background: rgba(51,65,85,0.35); opacity: 0.55; }
-  .week-row .day-name { min-width: 82px; font-weight: 700; font-size: 13px; color: var(--text-hi); flex-shrink: 0; }
-
+  .week-row.video { background: rgba(59,130,246,0.07);  border-color: rgba(59,130,246,0.18); }
+  .week-row.self  { background: rgba(16,185,129,0.07);  border-color: rgba(16,185,129,0.18); }
+  .week-row.rest  { background: rgba(51,65,85,0.35);    opacity: 0.55; }
+  .week-row .day-name {
+    font-weight: 700; font-size: 13px; color: var(--text-hi);
+    white-space: nowrap;
+  }
   .tag {
-    display: inline-flex; align-items: center; gap: 5px;
-    border-radius: 20px; padding: 3px 10px;
-    font-size: 11px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    border-radius: 20px; padding: 3px 8px;
+    font-size: 11px; font-weight: 600;
+    white-space: nowrap; width: 100%;
   }
   .tag.video { background: rgba(59,130,246,0.18);  border: 1px solid rgba(59,130,246,0.30);  color: var(--blue); }
   .tag.self  { background: rgba(16,185,129,0.18);  border: 1px solid rgba(16,185,129,0.30);  color: var(--green); }
   .tag.rest  { background: rgba(107,114,128,0.22); border: 1px solid rgba(107,114,128,0.30); color: var(--slate); }
-  .tag svg { width:14px; height:14px; }
-
-  .week-row .mid { flex: 1; min-width: 0; }
-  .week-row .focus { font-size: 12.5px; color: var(--text-lo); }
+  .tag svg   { width:13px; height:13px; flex-shrink: 0; }
+  .week-row .mid { min-width: 0; }
+  .week-row .focus        { font-size: 12.5px; color: var(--text-lo); line-height: 1.4; }
   .week-row .capsule-name { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-style: italic; }
-
+  .week-row .btn-cell {
+    display: flex; justify-content: flex-end; align-items: center;
+  }
   .watch-btn {
-    display: inline-flex; align-items: center; gap: 5px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
     background: linear-gradient(135deg, #3b82f6, #6366f1);
     color: #fff; border: none; border-radius: 8px;
-    padding: 6px 12px; font-size: 11.5px; font-weight: 600;
-    cursor: pointer; white-space: nowrap; flex-shrink: 0; text-decoration: none;
+    padding: 6px 10px; font-size: 11px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; width: 100%;
+    text-decoration: none;
     transition: opacity 0.18s, transform 0.1s;
     box-shadow: 0 2px 8px rgba(59,130,246,0.3);
   }
-  .watch-btn:hover { opacity: 0.88; }
+  .watch-btn:hover  { opacity: 0.88; }
   .watch-btn:active { transform: scale(0.96); }
-  .watch-btn svg { width: 13px; height: 13px; }
-  .watch-btn.ref { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 2px 8px rgba(16,185,129,0.3); }
-
-  .phase-block { border-radius: 14px; overflow: hidden; border: 1px solid rgba(100,116,139,0.18); background: var(--card); }
+  .watch-btn svg    { width: 12px; height: 12px; flex-shrink: 0; }
+  .watch-btn.ref {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+  }
+  .no-btn { display: block; width: 100%; height: 30px; }
+  /* ─── SESSION TEMPLATE ─── */
+  .phase-block {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(100,116,139,0.18);
+    background: var(--card);
+  }
   .phase-block .stripe-wrap { display: flex; }
-  .phase-block .stripe { width: 5px; flex-shrink: 0; }
+  .phase-block .stripe      { width: 5px; flex-shrink: 0; }
   .phase-block .stripe.amber  { background: var(--amber); }
   .phase-block .stripe.purple { background: var(--purple); }
   .phase-block .stripe.green  { background: var(--green); }
-  .phase-block .inner { padding: 14px 16px; flex: 1; }
+  .phase-block .stripe.cyan   { background: var(--cyan); }
+  .phase-block .inner         { padding: 14px 16px; flex: 1; }
   .phase-block .phase-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
-  .phase-block .phase-head .icon { font-size: 20px; line-height: 1; }
+  .phase-block .phase-head .icon  { font-size: 20px; line-height: 1; }
   .phase-block .phase-head .title { font-weight: 700; font-size: 15px; color: var(--text-hi); }
-  .phase-block .phase-head .dur { font-size: 11px; color: var(--text-muted); }
-
+  .phase-block .phase-head .dur   { font-size: 11px; color: var(--text-muted); }
   .bullet-list { list-style: none; }
   .bullet-list li { display: flex; gap: 9px; margin-bottom: 5px; font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
   .bullet-list li .dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; margin-top:7px; }
   .bullet-list li .dot.amber  { background: var(--amber); }
   .bullet-list li .dot.purple { background: var(--purple); }
   .bullet-list li .dot.green  { background: var(--green); }
-  .bullet-list li .dot.blue   { background: var(--blue); }
-
-  .core-block { border-radius: 14px; overflow: hidden; border: 1px solid rgba(99,102,241,0.25); background: var(--card); }
+  .bullet-list li .dot.cyan   { background: var(--cyan); }
+  .core-block {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(99,102,241,0.25);
+    background: var(--card);
+  }
   .core-head { padding: 13px 18px 0; display: flex; align-items: baseline; gap: 10px; }
-  .core-head .icon { font-size: 20px; }
+  .core-head .icon  { font-size: 20px; }
   .core-head .title { font-weight: 700; font-size: 15px; color: var(--text-hi); }
-  .core-head .dur { font-size: 11px; color: var(--text-muted); }
-
+  .core-head .dur   { font-size: 11px; color: var(--text-muted); }
   .core-cols { display: flex; margin-top: 12px; }
-  .core-col { flex: 1; padding: 11px 14px 15px; }
-  .core-col.video { background: rgba(59,130,246,0.06); border-top: 2px solid rgba(59,130,246,0.4); }
-  .core-col.self  { background: rgba(16,185,129,0.06); border-top: 2px solid rgba(16,185,129,0.4); margin-left: 2px; }
-  .core-col .col-label { font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
+  .core-col  { flex: 1; padding: 11px 14px 15px; }
+  .core-col.video { background: rgba(59,130,246,0.06);  border-top: 2px solid rgba(59,130,246,0.4); }
+  .core-col.self  { background: rgba(16,185,129,0.06);  border-top: 2px solid rgba(16,185,129,0.4); margin-left: 2px; }
+  .core-col .col-label       { font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
   .core-col.video .col-label { color: var(--blue); }
   .core-col.self  .col-label { color: var(--green); }
   .core-col .bullet-list li .dot.col-video { background: var(--blue); }
@@ -192,48 +273,69 @@
     background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
     border-radius: 8px; font-size: 11px; color: #93c5fd; line-height: 1.4;
   }
-
-  .total-pill {
-    margin-top: 6px; background: rgba(59,130,246,0.1);
-    border: 1px solid rgba(59,130,246,0.2); border-radius: 10px;
-    padding: 10px 16px; text-align: center;
-    font-size: 13px; font-weight: 600; color: #60a5fa;
+  .quality-section {
+    margin-top: 12px; border-radius: 12px;
+    background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); overflow: hidden;
   }
-
+  .quality-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; cursor: pointer; user-select: none; transition: background 0.15s;
+  }
+  .quality-header:hover { background: rgba(245,158,11,0.12); }
+  .quality-header .title-row { display: flex; align-items: center; gap: 8px; }
+  .quality-header .icon  { font-size: 18px; }
+  .quality-header .title { font-size: 13px; font-weight: 700; color: #fbbf24; }
+  .quality-header .chevron { font-size: 16px; color: #fbbf24; transition: transform 0.2s; }
+  .quality-header.open .chevron { transform: rotate(90deg); }
+  .quality-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .quality-body.open { max-height: 600px; }
+  .quality-body .inner { padding: 0 14px 12px; }
+  .quality-item { margin-bottom: 8px; padding-left: 16px; position: relative; }
+  .quality-item::before { content: '\2713'; position: absolute; left: 0; color: #fbbf24; font-weight: 700; font-size: 13px; }
+  .quality-item .label { font-weight: 600; font-size: 12px; color: var(--text-hi); }
+  .quality-item .desc  { font-size: 11.5px; color: var(--text-lo); line-height: 1.45; margin-top: 2px; }
+  .total-pill {
+    margin-top: 6px; background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 10px; padding: 10px 16px; text-align: center;
+    font-size: 13px; font-weight: 600; color: #22d3ee;
+  }
+  /* ─── PROGRESSION ─── */
   .week-card { border-radius: 14px; overflow: hidden; border: 1px solid rgba(100,116,139,0.18); }
   .week-card .wk-header { display: flex; align-items: center; gap: 12px; padding: 11px 18px; }
-  .week-card .wk-badge { border-radius: 10px; padding: 3px 11px; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.06em; white-space: nowrap; }
-  .week-card .wk-theme { font-size: 16px; font-weight: 700; color: var(--text-hi); }
-  .week-card .wk-body { padding: 12px 18px; background: var(--card); }
-  .week-card .wk-focus { font-size: 13px; font-weight: 600; font-style: italic; margin-bottom: 8px; }
+  .week-card .wk-badge  { border-radius: 10px; padding: 3px 11px; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.06em; white-space: nowrap; }
+  .week-card .wk-theme  { font-size: 16px; font-weight: 700; color: var(--text-hi); }
+  .week-card .wk-body   { padding: 12px 18px; background: var(--card); }
+  .week-card .wk-focus  { font-size: 13px; font-weight: 600; font-style: italic; margin-bottom: 8px; }
   .week-card .wk-detail { display: flex; gap: 10px; margin-bottom: 5px; font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
   .week-card .wk-detail .arrow { flex-shrink:0; font-size:11px; margin-top:2px; }
   .progression-connector { text-align: center; color: var(--text-footer); font-size: 13px; margin: 4px 0; }
-
+  /* ─── CUES ─── */
   .cues-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .cue-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; }
+  .cue-card  { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; }
   .cue-card .cue-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
   .cue-card .cue-icon { font-size: 20px; line-height: 1; }
-  .cue-card .cue-cat { font-weight: 700; font-size: 13px; color: var(--text-hi); }
+  .cue-card .cue-cat  { font-weight: 700; font-size: 13px; color: var(--text-hi); }
   .cue-card .cue-text { font-size: 12px; color: var(--text-lo); line-height: 1.45; }
-
+  /* ─── TIPS ─── */
   .tip-card { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px 16px; }
-  .tip-card .tip-icon { font-size: 22px; flex-shrink: 0; line-height: 1.2; }
+  .tip-card .tip-icon  { font-size: 22px; flex-shrink: 0; line-height: 1.2; }
   .tip-card .tip-title { font-weight: 700; font-size: 13.5px; color: var(--text-hi); margin-bottom: 3px; }
-  .tip-card .tip-text { font-size: 12.5px; color: var(--text-lo); line-height: 1.45; }
-
+  .tip-card .tip-text  { font-size: 12.5px; color: var(--text-lo); line-height: 1.45; }
+  .tip-card.featured { border: 1px solid rgba(14,165,233,0.3); background: rgba(14,165,233,0.08); }
+  .tip-card.featured .tip-title { color: #22d3ee; }
+  /* ─── FOOTER ─── */
   .footer {
     margin-top: 32px; padding-top: 18px;
     border-top: 1px solid rgba(100,116,139,0.15);
     text-align: center; font-size: 11px; color: var(--text-footer); line-height: 1.7;
   }
-
   @media (max-width: 520px) {
     .shell { padding: 20px 14px 40px; }
     .header h1 { font-size: 23px; }
-    .week-row { flex-wrap: wrap; gap: 8px 12px; padding: 12px 14px; }
-    .week-row .mid { order: 3; flex-basis: 100%; }
-    .watch-btn { order: 4; margin-top: 2px; }
+    .week-row { grid-template-columns: 80px 1fr; grid-template-rows: auto auto; gap: 6px 10px; padding: 12px 14px; }
+    .week-row .mid      { grid-column: 1 / -1; }
+    .week-row .btn-cell { grid-column: 1 / -1; justify-content: flex-start; }
+    .watch-btn { width: auto; }
     .core-cols { flex-direction: column; }
     .core-col.self { margin-left: 0; margin-top: 2px; }
     .cues-grid { grid-template-columns: 1fr; }
@@ -241,493 +343,630 @@
 </style>
 </head>
 <body>
-
 <div class="shell">
-
   <header class="header">
-    <div class="badge">Plan de développement individuel &middot; Technique</div>
+    <div class="badge">Plan de développement individuel · Entraînement technique</div>
     <h1>Nathan Lacroix</h1>
-    <p class="sub">Plan d'entraînement technique à domicile</p>
-    <p class="det">Arrière gauche &nbsp;&middot;&nbsp; 5 à 6 jours par semaine &nbsp;&middot;&nbsp; 15 à 20 min par séance &nbsp;&middot;&nbsp; Ballon seulement</p>
+    <p class="sub">Plan technique maison · Automne 2026 &nbsp;·&nbsp; Arrière gauche</p>
+    <p class="det">5 à 6 jours par semaine &nbsp;·&nbsp; 15 à 20 min par séance &nbsp;·&nbsp; 3 phases de 2 semaines</p>
   </header>
-
   <nav class="tab-rail" role="tablist">
-    <button class="tab-btn active" data-tab="0" role="tab" aria-selected="true">Plan hebdomadaire</button>
-    <button class="tab-btn" data-tab="1" role="tab" aria-selected="false">Structure de séance</button>
-    <button class="tab-btn" data-tab="2" role="tab" aria-selected="false">Progression sur 4 semaines</button>
-    <button class="tab-btn" data-tab="3" role="tab" aria-selected="false">Repères techniques</button>
-    <button class="tab-btn" data-tab="4" role="tab" aria-selected="false">Conseils aux parents</button>
+    <button class="tab-btn active" data-tab="0" role="tab">Plan hebdo</button>
+    <button class="tab-btn"        data-tab="1" role="tab">Structure séance</button>
+    <button class="tab-btn"        data-tab="2" role="tab">Progression 6 semaines</button>
+    <button class="tab-btn"        data-tab="3" role="tab">Conseils techniques</button>
+    <button class="tab-btn"        data-tab="4" role="tab">Mindset & autonomie</button>
   </nav>
-
-  <section class="panel active" data-panel="0" role="tabpanel">
-    <div class="info-box purple">Ce plan est construit autour des deux points soulevés par ton entraîneur : <strong>sortir proprement du ballon</strong> plutôt que de dégager dans l'urgence, et <strong>gagner en assurance dans tes dribbles</strong> comme arrière gauche. Tout se travaille seul, avec un ballon et un mur.</div>
-    <div class="info-box blue">
-      <strong>Comment lire ce plan :</strong> chaque semaine contient des journées
-      <strong style="color:#60a5fa">guidées par vidéo</strong> et des journées
-      <strong style="color:#34d399">en autonomie</strong>. Les jours guidés, Nathan regarde une
-      <strong>capsule de maîtrise du ballon</strong> en touchant le bouton, puis pratique autour de ce qu'il vient de voir.
-      Les jours en autonomie, il travaille seul sur un objectif précis. Le dimanche est toujours un jour de repos.
+  <!-- PANEL 0 : WEEKLY PLAN -->
+  <section class="panel active" data-panel="0">
+    <div class="info-box cyan">
+      <strong>Comment ca fonctionne :</strong> Le plan est divise en <strong>3 phases</strong>. Chaque phase a sa propre semaine type avec des capsules différentes. Sélectionne ta phase ci-dessous pour voir le plan de la semaine. Les jours <strong style="color:#60a5fa">Vidéo guidée</strong> : regarder la capsule puis répliquer. Les jours <strong style="color:#34d399">Autonomes</strong> : travailler seul sur le focus. Dimanche = repos.
     </div>
-
-    <div class="rotation-bar">
-      <span class="rot-label">Rotation des capsules</span>
-      <button class="rot-btn active" data-rot="0">Semaine A</button>
-      <button class="rot-btn" data-rot="1">Semaine B</button>
+    <div class="phase-selector">
+      <span class="ps-label">Sélectionner la phase</span>
+      <button class="phase-btn active" data-phase="0">
+        Phase 1
+        <span class="pb-weeks">Semaines 1-2 · Ball Mastery</span>
+      </button>
+      <button class="phase-btn" data-phase="1">
+        Phase 2
+        <span class="pb-weeks">Semaines 3-4 · Passe & Relance</span>
+      </button>
+      <button class="phase-btn" data-phase="2">
+        Phase 3
+        <span class="pb-weeks">Semaines 5-6 · Extérieur</span>
+      </button>
     </div>
-
+    <div class="phase-strip p0 active">
+          <strong>Phase 1 · Ball Mastery &amp; contrôle</strong> · Semaines 1 &amp; 2<br>
+          Capsules : « V » derrière + Neymar Turn · Croqueta + « V » extérieur · Maradona + Hook. Focus autonome : Construire la routine. Maîtriser les 3 premiers gestes, deux pieds. Première touche orientée au mur.
+        </div>
+    <div class="phase-strip p1">
+          <strong>Phase 2 · Passe & relance sous pression</strong> · Semaines 3 &amp; 4<br>
+          Capsules : Speed Dribbling · Half Turn First Touch · Quick Feet Drills. Focus autonome : Développer la relance sous pression. La première touche devient une décision, plus un réflexe.
+        </div>
+    <div class="phase-strip p2">
+          <strong>Phase 3 · Terrain extérieur · Séquences arrière gauche</strong> · Semaines 5 &amp; 6<br>
+          Capsules : Hook + Cruyff Turn · Half Turn First Touch · Wall Drills. Focus autonome : Sortir dehors. Intégrer tous les gestes dans des séquences d'arrière latéral en situation réelle.
+        </div>
     <div id="weekly-rows" style="display:flex; flex-direction:column; gap:8px;"></div>
   </section>
-
-  <section class="panel" data-panel="1" role="tabpanel">
-
+  <!-- PANEL 1 : SESSION TEMPLATE -->
+  <section class="panel" data-panel="1">
     <div class="phase-block" style="margin-bottom:12px;">
       <div class="stripe-wrap">
         <div class="stripe amber"></div>
         <div class="inner">
           <div class="phase-head">
-            <span class="icon">&#128293;</span>
+            <span class="icon">🔥</span>
             <span class="title">Échauffement avec le ballon</span>
-            <span class="dur">3 à 4 min</span>
+            <span class="dur">3-4 min</span>
           </div>
-          <ul class="bullet-list" id="warm-list"></ul>
+          <ul class="bullet-list">
+            <li><span class="dot amber"></span><span>Dribbler en zigzag, changer de direction toutes les 5 touches.</span></li>
+            <li><span class="dot amber"></span><span>Alterner les pieds — gauche, droit, gauche, droit — rester fluide.</span></li>
+            <li><span class="dot amber"></span><span>Ajouter quelques toe taps ou step-overs pour réveiller la coordination.</span></li>
+            <li><span class="dot amber"></span><span><em>Objectif : ressentir le ballon, se déverrouiller — sans précipitation.</em></span></li>
+          </ul>
         </div>
       </div>
     </div>
-
     <div class="core-block" style="margin-bottom:12px;">
       <div class="core-head">
-        <span class="icon">&#9889;</span>
-        <span class="title">Bloc technique principal</span>
-        <span class="dur">8 à 10 min</span>
+        <span class="icon">⚽</span>
+        <span class="title">Focus technique principal</span>
+        <span class="dur">8-10 min</span>
       </div>
       <div class="core-cols">
-        <div class="core-col video">
-          <div class="col-label">&#128249; Journées guidées par vidéo</div>
-          <ul class="bullet-list" id="core-video-list"></ul>
-          <div class="pointer-note">&#128070; Les liens des capsules se trouvent dans l'onglet <strong>Plan hebdomadaire</strong>. Touche « Voir la capsule » à côté de la journée.</div>
+        <div class="core-col vidéo">
+          <div class="col-label">📹 Jours Vidéo guidée</div>
+          <ul class="bullet-list">
+            <li><span class="dot col-vidéo"></span><span>Ouvrir la vidéo du jour depuis l'onglet <strong>Plan hebdo</strong> — la regarder en entier d'abord.</span></li>
+            <li><span class="dot col-vidéo"></span><span>Répliquer immédiatement les mouvements — faire 2-3 séries du geste principal.</span></li>
+            <li><span class="dot col-vidéo"></span><span>Se concentrer sur une chose à la fois : forme, toucher ou rythme.</span></li>
+            <li><span class="dot col-vidéo"></span><span>Repos 20-30 secondes entre les séries — qualité avant vitesse.</span></li>
+          </ul>
+          <div class="pointer-note">👆 Les liens vidéo sont dans l'onglet <strong>Plan hebdo</strong> — appuyer sur « Voir la capsule » à côté du jour.</div>
         </div>
         <div class="core-col self">
-          <div class="col-label">&#127939; Journées en autonomie</div>
-          <ul class="bullet-list" id="core-self-list"></ul>
-          <div class="pointer-note" id="core-note"></div>
+          <div class="col-label">🏃 Jours Autonomes</div>
+          <ul class="bullet-list">
+            <li><span class="dot col-self"></span><span>Choisir le drill du jour selon la phase (voir plan hebdo).</span></li>
+            <li><span class="dot col-self"></span><span>Faire 3 séries du drill, repos 20-30 secondes entre chaque.</span></li>
+            <li><span class="dot col-self"></span><span>Changer de pied ou de direction à mi-parcours de chaque série.</span></li>
+            <li><span class="dot col-self"></span><span>Se demander : <em>« Ma passe est-elle précise ? Est-ce que je scanne avant de recevoir? »</em></span></li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <div class="phase-block" style="margin-bottom:12px;">
+    <div class="quality-section">
+      <div class="quality-header" onclick="toggleQuality()">
+        <div class="title-row">
+          <span class="icon">✓</span>
+          <span class="title">Qu'est-ce qu'un geste « propre »?</span>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="quality-body" id="quality-body">
+        <div class="inner">
+          <div class="quality-item">
+            <div class="label">Ball Mastery & Contrôle</div>
+            <div class="desc">Propre = tu peux t'arreter au milieu du geste et garder le ballon sous le pied sans ajuster. Pas de double touche, pas de ballon qui s'échappe.</div>
+          </div>
+          <div class="quality-item">
+            <div class="label">Réception & Protection</div>
+            <div class="desc">Propre = première touche orientée vers l'espace libre, corps entre le ballon et l'adversaire imaginaire. Le ballon ne rebondit pas à plus d'un pied.</div>
+          </div>
+          <div class="quality-item">
+            <div class="label">Passe & Relance</div>
+            <div class="desc">Propre = la passe arrive dans les pieds du receveur, avec le bon poids (ni trop forte, ni trop molle). Le geste est fluide, pas saccadé.</div>
+          </div>
+          <div class="quality-item">
+            <div class="label">Se retourner sous pression</div>
+            <div class="desc">Propre = le demi-tour est fait en 1-2 touches max, avec le ballon protégé. Tu fais face au jeu rapidement, prêt a distribuer.</div>
+          </div>
+          <p style="margin-top:10px; font-size:11.5px; color:#fbbf24; font-style:italic;">
+            💡 Si tu perds le contrôle en accélérant, divise ton objectif par deux et ralentis. La qualité bat toujours la vitesse.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="phase-block" style="margin-bottom:12px; margin-top:12px;">
       <div class="stripe-wrap">
         <div class="stripe purple"></div>
         <div class="inner">
           <div class="phase-head">
-            <span class="icon">&#127919;</span>
+            <span class="icon">🎯</span>
             <span class="title">Défi court</span>
-            <span class="dur">3 à 4 min</span>
+            <span class="dur">3-4 min</span>
           </div>
-          <ul class="bullet-list" id="defi-list"></ul>
+          <ul class="bullet-list">
+            <li><span class="dot purple"></span><span>Appliquer ce qui vient d'être travaille dans un mini-défi (ex : <em>« 10 passes précises d'affilée contre le mur sans que le ballon dépasse 1m du pied »</em>).</span></li>
+            <li><span class="dot purple"></span><span>Se fixer un objectif honnête — atteignable mais pas facile.</span></li>
+            <li><span class="dot purple"></span><span>Si atteint, essayer de le dépasser. Sinon, c'est la cible pour la prochaine fois.</span></li>
+            <li><span class="dot purple"></span><span><em>Terminer sur une répétition positive — finir avec un toucher propre et confiant.</em></span></li>
+          </ul>
         </div>
       </div>
     </div>
-
     <div class="phase-block" style="margin-bottom:12px;">
       <div class="stripe-wrap">
         <div class="stripe green"></div>
         <div class="inner">
           <div class="phase-head">
-            <span class="icon">&#127769;</span>
+            <span class="icon">🌙</span>
             <span class="title">Retour au calme</span>
-            <span class="dur">1 à 2 min</span>
+            <span class="dur">1-2 min</span>
           </div>
-          <ul class="bullet-list" id="retour-list"></ul>
+          <ul class="bullet-list">
+            <li><span class="dot green"></span><span>Dribbler lentement, sans pression — juste profiter du ballon.</span></li>
+            <li><span class="dot green"></span><span>Penser : <em>« Quelle est la chose que j'ai bien faite aujourd'hui ? »</em></span></li>
+            <li><span class="dot green"></span><span>Étirements légers des jambes — 30 secondes de chaque côté.</span></li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <div class="total-pill">&#9201;&#65039; Durée totale de la séance : 15 à 20 minutes</div>
+    <div class="total-pill">⏱️ Durée totale : 15-20 minutes</div>
   </section>
-
-  <section class="panel" data-panel="2" role="tabpanel">
+  <!-- PANEL 2 : PROGRESSION -->
+  <section class="panel" data-panel="2">
+    <div class="info-box amber" style="margin-bottom:18px;">
+      <strong>⚠️ Et si je rate mon objectif?</strong><br>
+      La progression n'est pas linéaire. Si tu rates ton objectif <strong>2 séances d'affilée</strong>, recule à la cible de la semaine précédente. Aucune honte — c'est un entraînement intelligent. Demande-toi : <em>« Qu'est-ce qui était différent ? Sommeil ? Surface? Distraction? »</em>
+    </div>
     <div id="progression-cards" style="display:flex; flex-direction:column; gap:14px;"></div>
   </section>
-
-  <section class="panel" data-panel="3" role="tabpanel">
+  <!-- PANEL 3 : COACHING CUES -->
+  <section class="panel" data-panel="3">
     <div class="info-box purple">
-      Voici les <strong>repères techniques et mentaux</strong> que Nathan devrait garder en tête pendant chaque séance.
-      Il n'a pas besoin d'y penser tous en même temps : un ou deux par journée suffisent.
+      Ces rappels techniques et mentaux s'appliquent à chaque séance. Tu n'as pas besoin de tout retenir en même temps — <strong>choisis 1 ou 2 par jour</strong>.
     </div>
     <div class="cues-grid" id="cues-grid"></div>
   </section>
-
-  <section class="panel" data-panel="4" role="tabpanel">
-    <div class="info-box green">
-      La régularité compte plus que la perfection. Ces conseils servent à garder Nathan motivé et constant, sans ajouter de pression.
+  <!-- PANEL 4 : MINDSET & AUTONOMY -->
+  <section class="panel" data-panel="4">
+    <div class="info-box cyan">
+      Ce plan est le tien. C'est toi qui décides de te présenter chaque jour. Ces conseils sont là pour t'aider à rester motivé et à progresser — sans pression extérieure.
     </div>
     <div id="tips-list" style="display:flex; flex-direction:column; gap:10px;"></div>
   </section>
-
   <footer class="footer">
-    Les capsules vidéo s'ouvrent dans Google Drive. Assure-toi d'être connecté au bon compte.<br>
-    Ce plan fait partie du plan de développement individuel de Nathan.<br>
-    À revoir et à ajuster toutes les 4 semaines avec ton entraîneur.<br>
-    <strong>ProBreakthrough inc.</strong> &nbsp;&middot;&nbsp; Philippe Bernier &nbsp;&middot;&nbsp; Licence National A, ACS
+    Les capsules vidéo sont sur YouTube, accessibles sur tous les appareils.<br>
+    Ce plan fait partie du plan de développement individuel (PDI) de Nathan · ProBreakthrough.<br>
+    À revoir avec Philippe après 3 semaines.
   </footer>
 </div>
-
 <script>
-const DATA = {
-  "capsules": [
+const SVG_PLAY  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>`;
+const SVG_CLOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>`;
+const SVG_OPEN  = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+
+// ─── CAPSULES PAR PHASE (adapted for #6 defensive midfielder) ───
+const capsulesByPhase = [
+  [
     {
       "title": "« V » derrière + Neymar Turn",
-      "url": "https://drive.google.com/file/d/1isLcaCUo3JIm3anrIOP5fZLWF4fCiU8r/view?usp=sharing"
+      "url": "https://youtu.be/Ey5WsPb234A"
     },
     {
       "title": "Croqueta + « V » extérieur",
-      "url": "https://drive.google.com/file/d/1T1_2IyVY5NQISkX5YIh3F2XOuTSDkW3y/view?usp=sharing"
+      "url": "https://youtu.be/p1N51iBVVbI"
     },
     {
       "title": "Maradona + Hook",
-      "url": "https://drive.google.com/file/d/1G8LR-7ybGMtmZPahvPjiT9sPAMz-l8Do/view?usp=sharing"
-    },
-    {
-      "title": "« V » devant + « V » derrière",
-      "url": "https://drive.google.com/file/d/1OK2kC_BA6Op4x2co-fi_CI5--gANlvTf/view?usp=sharing"
-    },
-    {
-      "title": "Hook + Cruyff Turn",
-      "url": "https://drive.google.com/file/d/1_PXUZHC-PzARaOHrnFXIaE9Ld5HHNcsQ/view?usp=sharing"
+      "url": "https://youtu.be/odOb1kyCsPQ"
     }
   ],
-  "rotations": [
-    [
-      0,
-      1,
-      2
-    ],
-    [
-      3,
-      4,
-      0
-    ]
+  [
+    {
+      "title": "Speed Dribbling",
+      "url": "https://www.youtube.com/shorts/inF-Sxrd4n4"
+    },
+    {
+      "title": "Half Turn First Touch",
+      "url": "https://www.youtube.com/shorts/cNwE7CRpueA"
+    },
+    {
+      "title": "Quick Feet Drills",
+      "url": "https://www.youtube.com/shorts/1E5tu5uyATY"
+    }
   ],
-  "jours": [
+  [
+    {
+      "title": "Hook + Cruyff Turn",
+      "url": "https://youtu.be/DaCiwkWH-0k"
+    },
+    {
+      "title": "Half Turn First Touch",
+      "url": "https://www.youtube.com/shorts/cNwE7CRpueA"
+    },
+    {
+      "title": "Wall Drills",
+      "url": "https://youtu.be/hOIN1vwv5Xk"
+    }
+  ]
+];
+
+// ─── SEMAINES TYPE PAR PHASE (#6 defensive midfielder) ───
+const weekTemplates = [
+  [
     {
       "day": "Lundi",
       "type": "video",
-      "label": "Guidé par vidéo",
-      "focus": "Capsule de maîtrise du ballon, puis reprise des gestes en sortie de pression",
-      "videoSlot": 0
+      "label": "Vidéo guidée",
+      "focus": "Capsule Ball Mastery : répliquer le geste puis défi technique. Chercher la fluidité avant la vitesse.",
+      "slot": 0
     },
     {
       "day": "Mardi",
       "type": "self",
-      "label": "En autonomie",
-      "focus": "Première touche orientée au mur : recevoir et sortir du côté ouvert",
-      "refUrl": "https://www.youtube.com/shorts/-49Pr1xlUpA",
-      "refTitle": "Première touche et réception"
+      "label": "Autonome",
+      "focus": "Première touche orientée au mur : recevoir et sortir du côté opposé, 3x10 chaque pied."
     },
     {
       "day": "Mercredi",
       "type": "video",
-      "label": "Guidé par vidéo",
-      "focus": "Capsule de maîtrise du ballon, puis enchaînement geste et relance au mur",
-      "videoSlot": 1
+      "label": "Vidéo guidée",
+      "focus": "Capsule Ball Mastery : répétition à rythme croissant. Garder le ballon à moins d'un pied.",
+      "slot": 1
     },
     {
       "day": "Jeudi",
       "type": "self",
-      "label": "En autonomie",
-      "focus": "Appuis et changements de direction : conduite le long d'une ligne",
-      "refUrl": "https://www.youtube.com/shorts/5nOokRBlRBM",
-      "refTitle": "Coordination et appuis"
+      "label": "Autonome",
+      "focus": "Conduite et changements de direction le long d'une ligne, 3x10 chaque côté."
     },
     {
       "day": "Vendredi",
       "type": "video",
-      "label": "Guidé par vidéo",
-      "focus": "Capsule de maîtrise du ballon, puis exécution du geste sous contrainte de temps",
-      "videoSlot": 2
+      "label": "Vidéo guidée",
+      "focus": "Capsule Ball Mastery : enchaîner le geste puis accélérer. Première touche propre.",
+      "slot": 2
     },
     {
       "day": "Samedi",
       "type": "self",
-      "label": "En autonomie",
-      "focus": "Conduite libre et défi de sortie de balle"
+      "label": "Autonome",
+      "focus": "Enchaînement : réception orientée → sortie vers l'extérieur → conduite sur 10 m. Zéro dégagement."
     },
     {
       "day": "Dimanche",
       "type": "rest",
       "label": "Repos",
-      "focus": "Repos complet, aucun travail technique"
+      "focus": "Récupération"
     }
   ],
-  "seance": {
-    "echauffement": [
-      "Conduite en petits cercles, change de direction toutes les 5 touches.",
-      "Alterne les pieds. Comme arrière gauche, insiste sur le pied droit : c'est celui qui te fait rentrer dans le jeu.",
-      "Ajoute 5 semelles et 5 passements de jambe, les gestes qui te servent à sortir de la pression.",
-      "<em>Objectif : réveiller les appuis et retrouver la sensation du ballon. Aucune urgence.</em>"
-    ],
-    "core_video": [
-      "Ouvre la capsule du jour depuis l'onglet <strong>Plan hebdomadaire</strong> et regarde-la en entier.",
-      "Reproduis le geste à l'arrêt : 2 séries lentes, en cherchant la forme avant la vitesse.",
-      "Refais ensuite le même geste en sortant vers l'extérieur, comme si tu échappais à un pressing.",
-      "Repose-toi de 20 à 30 secondes entre les séries. La qualité passe avant la vitesse."
-    ],
-    "core_self": [
-      "Place-toi à 4 ou 5 mètres d'un mur. Envoie le ballon, reçois-le et sors du côté opposé.",
-      "3 séries de 10 réceptions. Alterne : sortie du pied gauche, puis sortie du pied droit.",
-      "Avant chaque réception, regarde par-dessus ton épaule. Décide de ta sortie avant le contact.",
-      "Demande-toi : <em>ma touche m'a-t-elle mis en position de jouer, ou de subir?</em>"
-    ],
-    "core_note": "👉 La règle du plan : <strong>zéro dégagement en catastrophe.</strong> Chaque ballon reçu doit ressortir par une touche choisie.",
-    "defi": [
-      "Défi du jour : 10 réceptions de suite où tu sors du côté opposé, sans perdre le ballon.",
-      "Fixe-toi un objectif honnête : atteignable, mais pas facile.",
-      "Si tu y arrives, ajoute une contrainte : rapproche-toi du mur ou accélère le renvoi.",
-      "<em>Termine sur une réussite : la dernière sortie doit être nette et sans hésitation.</em>"
-    ],
-    "retour": [
-      "Conduis le ballon lentement, sans pression. Profite simplement du ballon au pied.",
-      "Demande-toi : <em>combien de fois ai-je choisi ma sortie au lieu de la subir?</em>",
-      "Étire les jambes doucement, 30 secondes de chaque côté."
-    ]
-  },
-  "progression": [
+  [
     {
-      "week": 1,
-      "theme": "Installer l'habitude",
-      "color": "#3b82f6",
-      "focus": "Apprendre la routine et retrouver de bonnes sensations de réception.",
-      "details": [
-        "Les exercices sont introduits au niveau de base, sans pression ajoutée",
-        "Les capsules vidéo sont regardées en entier avant de pratiquer",
-        "Défis simples : 8 réceptions propres de suite au mur",
-        "Objectif : prendre l'habitude de regarder avant de recevoir"
-      ]
+      "day": "Lundi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Speed Dribbling : conduite rapide et changement de direction pour sortir de la pression.",
+      "slot": 0
     },
     {
-      "week": 2,
-      "theme": "Choisir sa sortie",
-      "color": "#8b5cf6",
-      "focus": "La première touche cesse d'être un réflexe et devient une décision.",
-      "details": [
-        "Regard par-dessus l'épaule avant chaque réception, sans exception",
-        "Les défis montent d'un cran : 10 réceptions propres, ou aucune erreur en 30 secondes",
-        "Introduction du déplacement avant la réception : Nathan bouge, puis reçoit",
-        "Les dribbles se travaillent à vitesse contrôlée, la forme avant tout"
-      ]
+      "day": "Mardi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Passe courte murale en deux touches maximum, contrôle puis relance précise, 3x15 pied D et pied G."
     },
     {
-      "week": 3,
-      "theme": "Sortir sous pression",
-      "color": "#f59e0b",
-      "focus": "Réduire le temps et l'espace disponibles avant la touche.",
-      "details": [
-        "Distance au mur réduite : le ballon revient plus vite, la décision doit suivre",
-        "Les défis portent sur la constance : 12 sorties propres en moins de 45 secondes",
-        "Les dribbles s'exécutent en conduite, jamais à l'arrêt",
-        "Nathan commence à s'auto-évaluer : la sortie était-elle propre? Pourquoi?"
-      ]
+      "day": "Mercredi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Half Turn First Touch : recevoir en mouvement et se réorienter vers l'avant.",
+      "slot": 1
     },
     {
-      "week": 4,
-      "theme": "Prendre le contrôle",
-      "color": "#10b981",
-      "focus": "Nathan mène la séance. On teste l'autonomie et la confiance sous pression.",
-      "details": [
-        "Les jours en autonomie, Nathan choisit lui-même son exercice",
-        "Il fixe ses propres défis de sortie de balle et tente de les battre",
-        "Les capsules se refont sans les regarder : le geste est-il acquis?",
-        "Bilan de bloc : combien de dégagements en catastrophe restent dans son jeu?"
-      ]
+      "day": "Jeudi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Décision sous pression : réception → sortie en conduite ou relance courte selon la situation imaginée, 3x10."
+    },
+    {
+      "day": "Vendredi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Quick Feet : rapidité des appuis puis explosion après le geste.",
+      "slot": 2
+    },
+    {
+      "day": "Samedi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Séquence arrière gauche : réception latérale → demi-tour → relance vers l'avant. Fluidité."
+    },
+    {
+      "day": "Dimanche",
+      "type": "rest",
+      "label": "Repos",
+      "focus": "Récupération"
     }
   ],
-  "cues": [
+  [
     {
-      "icon": "👀",
-      "cat": "Regarder avant",
-      "text": "Regarde par-dessus ton épaule avant que le ballon arrive. Un défenseur qui reçoit sans avoir regardé n'a plus qu'une option : dégager."
+      "day": "Lundi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Hook + Cruyff Turn : enchaîner les deux gestes pour te défaire d'un attaquant qui presse.",
+      "slot": 0
     },
     {
-      "icon": "🦵",
-      "cat": "Corps de trois quarts",
-      "text": "Ne reçois jamais face au jeu. Épaule ouverte vers le terrain : tu vois ton adversaire et ta sortie en même temps."
+      "day": "Mardi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Séquence arrière gauche : réception le long de la ligne → sortie intérieure → relance, 3x10."
     },
     {
-      "icon": "👟",
-      "cat": "Le bon pied",
-      "text": "Reçois du pied le plus éloigné de l'adversaire. C'est ce qui te donne le temps d'une deuxième touche."
+      "day": "Mercredi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Half Turn First Touch : première touche orientée vers l'avant en situation réelle.",
+      "slot": 1
     },
     {
-      "icon": "🎯",
-      "cat": "La sortie choisie",
-      "text": "Avant le contact, décide où va le ballon. Une touche choisie vaut mieux qu'une touche puissante."
+      "day": "Jeudi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Wall drills : passe courte, contrôle orienté puis accélération, 3x15 en deux touches maximum.",
+      "refUrl": "https://youtu.be/hOIN1vwv5Xk",
+      "refTitle": "Wall Drills"
     },
     {
-      "icon": "👣",
-      "cat": "Ton pied droit",
-      "text": "Comme arrière gauche, ton pied droit sert à rentrer dans le jeu vers l'intérieur. Ne le néglige jamais."
+      "day": "Vendredi",
+      "type": "video",
+      "label": "Vidéo guidée",
+      "focus": "Capsule Wall Drills : passes précises, première touche et sprint.",
+      "slot": 2
     },
     {
-      "icon": "🛡️",
-      "cat": "Le dribble utile",
-      "text": "Tu ne dribbles pas pour éliminer, tu dribbles pour sortir de la pression. Un seul contact suffit souvent."
+      "day": "Samedi",
+      "type": "self",
+      "label": "Autonome",
+      "focus": "Séquence complète : pression imaginaire → réception → sortie propre → relance. Filmer → Philippe."
     },
     {
-      "icon": "🔄",
-      "cat": "Recommencer",
-      "text": "Une erreur? Reprends, respire et recommence. Les erreurs font partie des répétitions."
-    },
-    {
-      "icon": "💭",
-      "cat": "Visualiser",
-      "text": "Avant de commencer, imagine-toi réussir le geste. Ensuite, exécute-le."
-    }
-  ],
-  "tips": [
-    {
-      "icon": "⏱️",
-      "title": "Garder ça court",
-      "text": "15 à 20 minutes, c'est gérable. La séance se termine avant que l'ennui s'installe."
-    },
-    {
-      "icon": "🔥",
-      "title": "En faire une série",
-      "text": "Cochez les journées sur un calendrier. À 5 ou 6 jours sur 7, la série devient un jeu en soi et Nathan ne voudra plus la briser."
-    },
-    {
-      "icon": "🗣️",
-      "title": "Faire le lien avec son entraîneur",
-      "text": "Son entraîneur lui a demandé de moins dégager. Après les matchs, demandez-lui simplement s'il a réussi à sortir proprement au moins une fois. C'est un objectif concret et mesurable."
-    },
-    {
-      "icon": "🧱",
-      "title": "Un mur suffit",
-      "text": "Nathan a besoin d'un mur et de 5 mètres devant lui. Un garage ou un mur d'école fait le travail. Aucun équipement à acheter."
-    },
-    {
-      "icon": "🌱",
-      "title": "Les ratés font partie du plan",
-      "text": "Nathan va rater des réceptions les premières semaines. C'est normal : il remplace un réflexe par une décision, et ça prend du temps à s'installer."
-    },
-    {
-      "icon": "💬",
-      "title": "Un point par semaine",
-      "text": "Une fois par semaine, demandez-lui combien de fois il a réussi à sortir proprement. Gardez ça informel."
+      "day": "Dimanche",
+      "type": "rest",
+      "label": "Repos",
+      "focus": "Récupération"
     }
   ]
-};
+];
 
-const SVG_PLAY  = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>';
-const SVG_CLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>';
-const SVG_OPEN  = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
-
-let activeRotation = 0;
-
+let activePhase = 0;
 function renderWeekly() {
-  const root  = document.getElementById('weekly-rows');
-  const slots = DATA.rotations[activeRotation];
-
-  root.innerHTML = DATA.jours.map(d => {
+  const root     = document.getElementById('weekly-rows');
+  const capsules = capsulesByPhase[activePhase];
+  const days     = weekTemplates[activePhase];
+  root.innerHTML = days.map(d => {
     let capsuleHtml = '';
-    let watchBtn = '';
-
+    let watchBtn    = '';
     if (d.type === 'video') {
-      const c = DATA.capsules[slots[d.videoSlot]];
-      capsuleHtml = '<span class="capsule-name">' + c.title + '</span>';
-      watchBtn = '<a class="watch-btn" href="' + c.url + '" target="_blank" rel="noopener">'
-               + SVG_PLAY + ' Voir la capsule ' + SVG_OPEN + '</a>';
+      const c = capsules[d.slot];
+      capsuleHtml = `<span class="capsule-name">${c.title}</span>`;
+      watchBtn    = `<a class="watch-btn" href="${c.url}" target="_blank" rel="noopener">${SVG_PLAY} Voir la capsule ${SVG_OPEN}</a>`;
     }
     if (d.refUrl) {
-      capsuleHtml = '<span class="capsule-name">' + d.refTitle + '</span>';
-      watchBtn = '<a class="watch-btn ref" href="' + d.refUrl + '" target="_blank" rel="noopener">'
-               + SVG_PLAY + ' Voir la vidéo ' + SVG_OPEN + '</a>';
+      capsuleHtml = `<span class="capsule-name">${d.refTitle}</span>`;
+      watchBtn    = `<a class="watch-btn ref" href="${d.refUrl}" target="_blank" rel="noopener">${SVG_PLAY} Voir la capsule ${SVG_OPEN}</a>`;
     }
-
-    const tagIcon = d.type === 'video' ? SVG_PLAY : (d.type === 'self' ? SVG_CLOCK : '&middot;');
-
-    return '<div class="week-row ' + d.type + '">'
-         +   '<span class="day-name">' + d.day + '</span>'
-         +   '<span class="tag ' + d.type + '">' + tagIcon + ' ' + d.label + '</span>'
-         +   '<div class="mid"><div class="focus">' + d.focus + '</div>' + capsuleHtml + '</div>'
-         +   watchBtn
-         + '</div>';
+    const tagIcon = d.type === 'video' ? SVG_PLAY : d.type === 'self' ? SVG_CLOCK : '\u2014';
+    return `
+      <div class="week-row ${d.type}">
+        <span class="day-name">${d.day}</span>
+        <span class="tag ${d.type}">${tagIcon} ${d.label}</span>
+        <div class="mid">
+          <div class="focus">${d.focus}</div>
+          ${capsuleHtml}
+        </div>
+        <div class="btn-cell">${watchBtn}</div>
+      </div>`;
   }).join('');
 }
 
-function fillList(id, items, dotClass) {
-  document.getElementById(id).innerHTML = items.map(t =>
-    '<li><span class="dot ' + dotClass + '"></span><span>' + t + '</span></li>'
-  ).join('');
-}
-
-function renderSession() {
-  fillList('warm-list',        DATA.seance.echauffement, 'amber');
-  fillList('core-video-list',  DATA.seance.core_video,   'col-video');
-  fillList('core-self-list',   DATA.seance.core_self,    'col-self');
-  fillList('defi-list',        DATA.seance.defi,         'purple');
-  fillList('retour-list',      DATA.seance.retour,       'green');
-  document.getElementById('core-note').innerHTML = DATA.seance.core_note;
-}
+// ─── PROGRESSION (#6 defensive midfielder) ───
+const progression = [
+  {
+    "week": "1-2",
+    "theme": "Phase 1 · Ball Mastery & contrôle",
+    "color": "#0ea5e9",
+    "focus": "Construire la routine. Maîtriser les 3 premiers gestes, deux pieds. Première touche orientée au mur.",
+    "details": [
+      "« V » derrière + Neymar Turn · Croqueta + « V » extérieur · Maradona + Hook",
+      "Jours autonomes : première touche orientée + conduite avec changements de direction",
+      "Défi S1 : 8 répétitions propres d'affilée, garder le ballon à moins d'un pied",
+      "Défi S2 : 12 répétitions, même geste, rythme croissant + sortie vers l'extérieur"
+    ]
+  },
+  {
+    "week": "3-4",
+    "theme": "Phase 2 · Passe & relance sous pression",
+    "color": "#f59e0b",
+    "focus": "Développer la relance sous pression. La première touche devient une décision, plus un réflexe.",
+    "details": [
+      "Speed Dribbling · Half Turn First Touch · Quick Feet Drills",
+      "Jours autonomes : passe courte murale + demi-tour + relance vers l'avant",
+      "Défi S3 : 3x15 passes murales en deux touches, sans que le ballon dépasse 1 m",
+      "Défi S4 : séquence arrière gauche, réception latérale → demi-tour → relance vers l'avant"
+    ]
+  },
+  {
+    "week": "5-6",
+    "theme": "Phase 3 · Terrain extérieur · Séquences arrière gauche",
+    "color": "#10b981",
+    "focus": "Sortir dehors. Intégrer tous les gestes dans des séquences d'arrière latéral en situation réelle.",
+    "details": [
+      "Hook + Cruyff Turn · Half Turn First Touch · Wall Drills",
+      "Jours autonomes : wall drills + séquence complète réception → sortie → relance",
+      "Défi S5 : 3x15 wall drills, contrôle orienté puis relance courte dans les pieds",
+      "Défi S6 : séquence complète, pression imaginaire → réception → sortie propre → relance · Filmer → Philippe"
+    ]
+  }
+];
 
 function renderProgression() {
-  document.getElementById('progression-cards').innerHTML = DATA.progression.map((w, i) =>
-    '<div class="week-card" style="border-color:' + w.color + '30;">'
-  +   '<div class="wk-header" style="background:' + w.color + '15; border-bottom:1px solid ' + w.color + '22;">'
-  +     '<span class="wk-badge" style="background:' + w.color + ';">SEMAINE ' + w.week + '</span>'
-  +     '<span class="wk-theme">' + w.theme + '</span>'
-  +   '</div>'
-  +   '<div class="wk-body">'
-  +     '<p class="wk-focus" style="color:' + w.color + ';">' + w.focus + '</p>'
-  +     w.details.map(d =>
-          '<div class="wk-detail"><span class="arrow" style="color:' + w.color + ';">&#9656;</span><span>' + d + '</span></div>'
-        ).join('')
-  +   '</div>'
-  + '</div>'
-  + (i < DATA.progression.length - 1
-      ? '<div class="progression-connector">&darr; Chaque semaine s\'appuie sur la précédente &darr;</div>'
-      : '')
-  ).join('');
+  document.getElementById('progression-cards').innerHTML = progression.map((w,i) => `
+    <div class="week-card" style="border-color:${w.color}30;">
+      <div class="wk-header" style="background:${w.color}15; border-bottom:1px solid ${w.color}22;">
+        <span class="wk-badge" style="background:${w.color};">SEMAINES ${w.week}</span>
+        <span class="wk-theme">${w.theme}</span>
+      </div>
+      <div class="wk-body">
+        <p class="wk-focus" style="color:${w.color};">${w.focus}</p>
+        ${w.details.map(d => `<div class="wk-detail"><span class="arrow" style="color:${w.color};">▸</span><span>${d}</span></div>`).join('')}
+      </div>
+    </div>
+    ${i < progression.length - 1 ? '<div class="progression-connector">↓ Chaque phase s\'appuie sur la precedente ↓</div>' : ''}
+  `).join('');
 }
+
+// ─── CUES (#6 defensive midfielder) ───
+const cues = [
+  {
+    "icon": "👀",
+    "cat": "Scanner avant de recevoir",
+    "text": "Avant même que le ballon arrive, regarde par-dessus ton épaule. Un défenseur qui reçoit sans avoir regardé n'a plus qu'une option : dégager."
+  },
+  {
+    "icon": "🧭",
+    "cat": "Corps de trois quarts",
+    "text": "Ne reçois jamais face au jeu. Épaule ouverte vers le terrain : tu vois ton adversaire et ta sortie en même temps."
+  },
+  {
+    "icon": "🎯",
+    "cat": "La sortie choisie",
+    "text": "Avant le contact, décide où va le ballon. Une touche choisie vaut toujours mieux qu'une touche puissante."
+  },
+  {
+    "icon": "🦶",
+    "cat": "Le bon pied",
+    "text": "Reçois du pied le plus éloigné de l'adversaire. C'est ce qui te donne le temps d'une deuxième touche."
+  },
+  {
+    "icon": "🛡️",
+    "cat": "Protéger le ballon",
+    "text": "Ton corps est ton outil. Place-toi entre le ballon et l'attaquant. Un bon latéral ne perd jamais le ballon bêtement."
+  },
+  {
+    "icon": "⚡",
+    "cat": "Deux touches maximum",
+    "text": "Sous pression, contrôle puis relance en deux touches. Plus tu gardes le ballon longtemps, plus la pression monte."
+  },
+  {
+    "icon": "🔄",
+    "cat": "Le dribble utile",
+    "text": "Tu ne dribbles pas pour éliminer, tu dribbles pour sortir de la pression. Un seul contact suffit souvent."
+  },
+  {
+    "icon": "🧠",
+    "cat": "Avancer ou sécuriser",
+    "text": "Relance vers l'avant si c'est possible. Sinon, sécurise. Un bon latéral ne force jamais, il garde la possession."
+  }
+];
 
 function renderCues() {
-  document.getElementById('cues-grid').innerHTML = DATA.cues.map(c =>
-    '<div class="cue-card">'
-  +   '<div class="cue-head"><span class="cue-icon">' + c.icon + '</span><span class="cue-cat">' + c.cat + '</span></div>'
-  +   '<p class="cue-text">' + c.text + '</p>'
-  + '</div>'
-  ).join('');
+  document.getElementById('cues-grid').innerHTML = cues.map(c => `
+    <div class="cue-card">
+      <div class="cue-head"><span class="cue-icon">${c.icon}</span><span class="cue-cat">${c.cat}</span></div>
+      <p class="cue-text">${c.text}</p>
+    </div>
+  `).join('');
 }
+
+// ─── TIPS (self-directed for athlete) ───
+const tips = [
+  {
+    "icon": "🎯",
+    "title": "C'est ton plan",
+    "featured": true,
+    "text": "Personne ne va te forcer à t'entraîner. C'est toi qui décides de te présenter chaque jour. <strong>L'appropriation crée la motivation.</strong>"
+  },
+  {
+    "icon": "⏱️",
+    "title": "Garder ça court",
+    "text": "15 à 20 minutes, c'est gérable. Termine avant que l'ennui s'installe. Court et intense bat long et mou."
+  },
+  {
+    "icon": "🔥",
+    "title": "En faire une série",
+    "text": "Suis tes journées sur un calendrier. Voir la série grandir est une source de motivation. Ne brise pas la chaîne."
+  },
+  {
+    "icon": "📹",
+    "title": "Filme-toi",
+    "text": "Une fois par semaine, filme une série. Compare avec la semaine précédente. Tu vas voir tes progrès, surtout sur ta première touche."
+  },
+  {
+    "icon": "🏆",
+    "title": "Célèbre les petites victoires",
+    "text": "Défi atteint? Ça compte. Dis-le à voix haute. La confiance se construit geste par geste."
+  },
+  {
+    "icon": "🧠",
+    "title": "Pense comme un latéral",
+    "text": "Même seul, visualise l'attaquant qui vient te presser. De quel côté sors-tu? Vers qui relances-tu? Décide avant de toucher le ballon."
+  },
+  {
+    "icon": "🌱",
+    "title": "Les ratés font partie du plan",
+    "text": "Tu vas rater des réceptions les premières semaines. C'est normal : tu remplaces un réflexe par une décision, et ça prend du temps."
+  },
+  {
+    "icon": "💬",
+    "title": "Fais le point après 3 semaines",
+    "text": "Après la semaine 3, demande-toi : qu'est-ce qui s'est bien passé? Qu'est-ce qui était difficile? Ajuste avec Philippe."
+  },
+  {
+    "icon": "🌿",
+    "title": "Phase 3, sortir dehors",
+    "text": "Les semaines 5 et 6 se font à l'extérieur. Le changement de surface et d'espace fait partie de la progression."
+  }
+];
 
 function renderTips() {
-  document.getElementById('tips-list').innerHTML = DATA.tips.map(t =>
-    '<div class="tip-card">'
-  +   '<span class="tip-icon">' + t.icon + '</span>'
-  +   '<div><div class="tip-title">' + t.title + '</div><p class="tip-text">' + t.text + '</p></div>'
-  + '</div>'
-  ).join('');
+  document.getElementById('tips-list').innerHTML = tips.map(t => `
+    <div class="tip-card ${t.featured ? 'featured' : ''}">
+      <span class="tip-icon">${t.icon}</span>
+      <div>
+        <div class="tip-title">${t.title}</div>
+        <p class="tip-text">${t.text}</p>
+      </div>
+    </div>
+  `).join('');
 }
 
+function toggleQuality() {
+  const header = document.querySelector('.quality-header');
+  const body   = document.getElementById('quality-body');
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ─── TABS ───
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
-    btn.setAttribute('aria-selected','true');
-    document.querySelector('[data-panel="' + btn.dataset.tab + '"]').classList.add('active');
+    document.querySelector(`[data-panel="${btn.dataset.tab}"]`).classList.add('active');
   });
 });
 
-document.querySelectorAll('.rot-btn').forEach(btn => {
+// ─── PHASE SELECTOR ───
+document.querySelectorAll('.phase-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.rot-btn').forEach(b => b.classList.remove('active'));
+    activePhase = Number(btn.dataset.phase);
+    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.phase-strip').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
-    activeRotation = Number(btn.dataset.rot);
+    document.querySelectorAll('.phase-strip')[activePhase].classList.add('active');
     renderWeekly();
   });
 });
 
+// ─── INIT ───
 renderWeekly();
-renderSession();
 renderProgression();
 renderCues();
 renderTips();
