@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="referrer" content="no-referrer">
+<title>T. C. &mdash; Plan technique, phase 1</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue:         #3b82f6;
+    --blue-dim:     rgba(59,130,246,0.12);
+    --blue-border:  rgba(59,130,246,0.25);
+    --green:        #10b981;
+    --green-dim:    rgba(16,185,129,0.10);
+    --green-border: rgba(16,185,129,0.22);
+    --purple:       #8b5cf6;
+    --purple-dim:   rgba(139,92,246,0.10);
+    --purple-border:rgba(139,92,246,0.22);
+    --amber:        #f59e0b;
+    --amber-dim:    rgba(245,158,11,0.10);
+    --amber-border: rgba(245,158,11,0.22);
+    --slate:        #6b7280;
+    --card:         rgba(30,41,59,0.62);
+    --card-border:  rgba(100,116,139,0.18);
+    --text-hi:      #f1f5f9;
+    --text-mid:     #cbd5e1;
+    --text-lo:      #94a3b8;
+    --text-muted:   #64748b;
+    --text-footer:  #475569;
+  }
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+  body {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-mid);
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(59,130,246,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(16,185,129,0.06) 0%, transparent 70%);
+  }
+  .shell {
+    position: relative; z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 18px 48px;
+  }
+  /* ─── HEADER ─── */
+  .header { text-align: center; margin-bottom: 26px; }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 10px;
+    padding: 5px 18px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 800;
+    background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .header .sub { color: var(--text-lo);    font-size: 13px; margin-top: 6px; font-weight: 500; }
+  .header .det { color: var(--text-muted); font-size: 12px; margin-top: 3px; }
+  /* ─── TAB RAIL ─── */
+  .tab-rail {
+    display: flex; gap: 5px;
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(100,116,139,0.15);
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-rail::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: var(--text-lo);
+    font-size: 12px; font-weight: 600;
+    padding: 8px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .tab-btn:hover  { background: rgba(59,130,246,0.12); color: #fff; }
+  .tab-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(59,130,246,0.3);
+  }
+  /* ─── PANELS ─── */
+  .panel { display: none; animation: fadeIn 0.22s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+  /* ─── INFO BOXES ─── */
+  .info-box {
+    border-radius: 12px; padding: 14px 18px; margin-bottom: 18px;
+    font-size: 13px; line-height: 1.55;
+  }
+  .info-box.blue   { background: var(--blue-dim);   border: 1px solid var(--blue-border);   color: #93c5fd; }
+  .info-box.green  { background: var(--green-dim);  border: 1px solid var(--green-border);  color: #6ee7b7; }
+  .info-box.purple { background: var(--purple-dim); border: 1px solid var(--purple-border); color: #a78bfa; }
+  .info-box.amber  { background: var(--amber-dim);  border: 1px solid var(--amber-border);  color: #fbbf24; }
+  /* ─── PHASE SELECTOR ─── */
+  .phase-selector {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .phase-selector .ps-label { font-size: 12px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; width: 100%; text-align: center; margin-bottom: 4px; }
+  .phase-btn {
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(100,116,139,0.25);
+    border-radius: 10px;
+    color: var(--text-lo);
+    font-size: 12px; font-weight: 600;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: center;
+  }
+  .phase-btn:hover { color: #fff; }
+  .phase-btn .pb-weeks { font-size: 10px; opacity: 0.7; display: block; margin-top: 1px; }
+  .phase-btn[data-phase="0"] { border-color: rgba(59,130,246,0.3); }
+  .phase-btn[data-phase="0"]:hover,
+  .phase-btn[data-phase="0"].active {
+    background: rgba(59,130,246,0.18); border-color: var(--blue); color: var(--blue);
+    box-shadow: 0 0 8px rgba(59,130,246,0.2);
+  }
+  .phase-btn[data-phase="1"] { border-color: rgba(139,92,246,0.3); }
+  .phase-btn[data-phase="1"]:hover,
+  .phase-btn[data-phase="1"].active {
+    background: rgba(139,92,246,0.18); border-color: var(--purple); color: var(--purple);
+    box-shadow: 0 0 8px rgba(139,92,246,0.2);
+  }
+  .phase-btn[data-phase="2"] { border-color: rgba(16,185,129,0.3); }
+  .phase-btn[data-phase="2"]:hover,
+  .phase-btn[data-phase="2"].active {
+    background: rgba(16,185,129,0.18); border-color: var(--green); color: var(--green);
+    box-shadow: 0 0 8px rgba(16,185,129,0.2);
+  }
+  /* phase info strip */
+  .phase-strip {
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+    font-size: 12px; line-height: 1.5; display: none;
+  }
+  .phase-strip.active { display: block; }
+  .phase-strip.p0 { background: var(--blue-dim);   border: 1px solid var(--blue-border);   color: #93c5fd; }
+  .phase-strip.p1 { background: var(--purple-dim); border: 1px solid var(--purple-border); color: #a78bfa; }
+  .phase-strip.p2 { background: var(--green-dim);  border: 1px solid var(--green-border);  color: #6ee7b7; }
+  .phase-strip strong { font-weight: 700; }
+  /* ─── WEEKLY ROWS ─── */
+  /* Fixed 4-column grid: day | tag | content | button */
+  .week-row {
+    display: grid;
+    grid-template-columns: 90px 120px 1fr 110px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px; padding: 11px 14px;
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .week-row:hover { border-color: rgba(100,116,139,0.25); }
+  .week-row.video { background: rgba(59,130,246,0.07);  border-color: rgba(59,130,246,0.18); }
+  .week-row.self  { background: rgba(16,185,129,0.07);  border-color: rgba(16,185,129,0.18); }
+  .week-row.rest  { background: rgba(51,65,85,0.35);    opacity: 0.55; }
+  .week-row .day-name {
+    font-weight: 700; font-size: 13px; color: var(--text-hi);
+    white-space: nowrap;
+  }
+  .tag {
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    border-radius: 20px; padding: 3px 8px;
+    font-size: 11px; font-weight: 600;
+    white-space: nowrap; width: 100%;
+  }
+  .tag.video { background: rgba(59,130,246,0.18);  border: 1px solid rgba(59,130,246,0.30);  color: var(--blue); }
+  .tag.self  { background: rgba(16,185,129,0.18);  border: 1px solid rgba(16,185,129,0.30);  color: var(--green); }
+  .tag.rest  { background: rgba(107,114,128,0.22); border: 1px solid rgba(107,114,128,0.30); color: var(--slate); }
+  .tag svg   { width:13px; height:13px; flex-shrink: 0; }
+  .week-row .mid { min-width: 0; }
+  .week-row .focus        { font-size: 12.5px; color: var(--text-lo); line-height: 1.4; }
+  .week-row .capsule-name { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-style: italic; }
+  .week-row .btn-cell {
+    display: flex; justify-content: flex-end; align-items: center;
+  }
+  .watch-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff; border: none; border-radius: 8px;
+    padding: 6px 10px; font-size: 11px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; width: 100%;
+    text-decoration: none;
+    transition: opacity 0.18s, transform 0.1s;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+  }
+  .watch-btn:hover  { opacity: 0.88; }
+  .watch-btn:active { transform: scale(0.96); }
+  .watch-btn svg    { width: 12px; height: 12px; flex-shrink: 0; }
+  .watch-btn.ref {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+  }
+  .no-btn {
+    display: block; width: 100%; height: 30px;
+  }
+  /* ─── SESSION TEMPLATE ─── */
+  .phase-block {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(100,116,139,0.18);
+    background: var(--card);
+  }
+  .phase-block .stripe-wrap { display: flex; }
+  .phase-block .stripe      { width: 5px; flex-shrink: 0; }
+  .phase-block .stripe.amber  { background: var(--amber); }
+  .phase-block .stripe.purple { background: var(--purple); }
+  .phase-block .stripe.green  { background: var(--green); }
+  .phase-block .inner         { padding: 14px 16px; flex: 1; }
+  .phase-block .phase-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .phase-block .phase-head .icon  { font-size: 20px; line-height: 1; }
+  .phase-block .phase-head .title { font-weight: 700; font-size: 15px; color: var(--text-hi); }
+  .phase-block .phase-head .dur   { font-size: 11px; color: var(--text-muted); }
+  .bullet-list { list-style: none; }
+  .bullet-list li { display: flex; gap: 9px; margin-bottom: 5px; font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+  .bullet-list li .dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; margin-top:7px; }
+  .bullet-list li .dot.amber  { background: var(--amber); }
+  .bullet-list li .dot.purple { background: var(--purple); }
+  .bullet-list li .dot.green  { background: var(--green); }
+  .core-block {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(99,102,241,0.25);
+    background: var(--card);
+  }
+  .core-head { padding: 13px 18px 0; display: flex; align-items: baseline; gap: 10px; }
+  .core-head .icon  { font-size: 20px; }
+  .core-head .title { font-weight: 700; font-size: 15px; color: var(--text-hi); }
+  .core-head .dur   { font-size: 11px; color: var(--text-muted); }
+  .core-cols { display: flex; margin-top: 12px; }
+  .core-col  { flex: 1; padding: 11px 14px 15px; }
+  .core-col.video { background: rgba(59,130,246,0.06);  border-top: 2px solid rgba(59,130,246,0.4); }
+  .core-col.self  { background: rgba(16,185,129,0.06);  border-top: 2px solid rgba(16,185,129,0.4); margin-left: 2px; }
+  .core-col .col-label       { font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
+  .core-col.video .col-label { color: var(--blue); }
+  .core-col.self  .col-label { color: var(--green); }
+  .core-col .bullet-list li .dot.col-video { background: var(--blue); }
+  .core-col .bullet-list li .dot.col-self  { background: var(--green); }
+  .core-col .bullet-list li { font-size: 12px; }
+  .core-col .pointer-note {
+    margin-top: 10px; padding: 7px 10px;
+    background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 8px; font-size: 11px; color: #93c5fd; line-height: 1.4;
+  }
+  .quality-section {
+    margin-top: 12px; border-radius: 12px;
+    background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); overflow: hidden;
+  }
+  .quality-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; cursor: pointer; user-select: none; transition: background 0.15s;
+  }
+  .quality-header:hover { background: rgba(245,158,11,0.12); }
+  .quality-header .title-row { display: flex; align-items: center; gap: 8px; }
+  .quality-header .icon  { font-size: 18px; }
+  .quality-header .title { font-size: 13px; font-weight: 700; color: #fbbf24; }
+  .quality-header .chevron { font-size: 16px; color: #fbbf24; transition: transform 0.2s; }
+  .quality-header.open .chevron { transform: rotate(90deg); }
+  .quality-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .quality-body.open { max-height: 600px; }
+  .quality-body .inner { padding: 0 14px 12px; }
+  .quality-item { margin-bottom: 8px; padding-left: 16px; position: relative; }
+  .quality-item::before { content: '✓'; position: absolute; left: 0; color: #fbbf24; font-weight: 700; font-size: 13px; }
+  .quality-item .label { font-weight: 600; font-size: 12px; color: var(--text-hi); }
+  .quality-item .desc  { font-size: 11.5px; color: var(--text-lo); line-height: 1.45; margin-top: 2px; }
+  .total-pill {
+    margin-top: 6px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 10px; padding: 10px 16px; text-align: center;
+    font-size: 13px; font-weight: 600; color: #60a5fa;
+  }
+  /* ─── PROGRESSION ─── */
+  .week-card { border-radius: 14px; overflow: hidden; border: 1px solid rgba(100,116,139,0.18); }
+  .week-card .wk-header { display: flex; align-items: center; gap: 12px; padding: 11px 18px; }
+  .week-card .wk-badge  { border-radius: 10px; padding: 3px 11px; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.06em; white-space: nowrap; }
+  .week-card .wk-theme  { font-size: 16px; font-weight: 700; color: var(--text-hi); }
+  .week-card .wk-body   { padding: 12px 18px; background: var(--card); }
+  .week-card .wk-focus  { font-size: 13px; font-weight: 600; font-style: italic; margin-bottom: 8px; }
+  .week-card .wk-detail { display: flex; gap: 10px; margin-bottom: 5px; font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+  .week-card .wk-detail .arrow { flex-shrink:0; font-size:11px; margin-top:2px; }
+  .progression-connector { text-align: center; color: var(--text-footer); font-size: 13px; margin: 4px 0; }
+  /* ─── CUES ─── */
+  .cues-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cue-card  { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; }
+  .cue-card .cue-head { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .cue-card .cue-icon { font-size: 20px; line-height: 1; }
+  .cue-card .cue-cat  { font-weight: 700; font-size: 13px; color: var(--text-hi); }
+  .cue-card .cue-text { font-size: 12px; color: var(--text-lo); line-height: 1.45; }
+  /* ─── TIPS ─── */
+  .tip-card { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px 16px; }
+  .tip-card .tip-icon  { font-size: 22px; flex-shrink: 0; line-height: 1.2; }
+  .tip-card .tip-title { font-weight: 700; font-size: 13.5px; color: var(--text-hi); margin-bottom: 3px; }
+  .tip-card .tip-text  { font-size: 12.5px; color: var(--text-lo); line-height: 1.45; }
+  .tip-card.featured { border: 1px solid rgba(139,92,246,0.3); background: rgba(139,92,246,0.08); }
+  .tip-card.featured .tip-title { color: #a78bfa; }
+  .do-dont-grid { display: flex; gap: 10px; margin-top: 8px; }
+  .do-dont-col  { flex: 1; }
+  .do-dont-col .col-title { font-size: 11px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+  .do-dont-col.do   .col-title { color: #6ee7b7; }
+  .do-dont-col.dont .col-title { color: #fca5a5; }
+  .do-dont-item { font-size: 11px; color: var(--text-lo); line-height: 1.4; padding-left: 12px; position: relative; margin-bottom: 4px; }
+  .do-dont-item::before { content: '•'; position: absolute; left: 0; font-weight: 700; }
+  .do-dont-col.do   .do-dont-item::before { color: #6ee7b7; }
+  .do-dont-col.dont .do-dont-item::before { color: #fca5a5; }
+  /* ─── FOOTER ─── */
+  .footer {
+    margin-top: 32px; padding-top: 18px;
+    border-top: 1px solid rgba(100,116,139,0.15);
+    text-align: center; font-size: 11px; color: var(--text-footer); line-height: 1.7;
+  }
+  @media (max-width: 520px) {
+    .shell { padding: 20px 14px 40px; }
+    .header h1 { font-size: 23px; }
+    .week-row { grid-template-columns: 80px 1fr; grid-template-rows: auto auto; gap: 6px 10px; padding: 12px 14px; }
+    .week-row .mid      { grid-column: 1 / -1; }
+    .week-row .btn-cell { grid-column: 1 / -1; justify-content: flex-start; }
+    .watch-btn { width: auto; }
+    .core-cols { flex-direction: column; }
+    .core-col.self { margin-left: 0; margin-top: 2px; }
+    .cues-grid { grid-template-columns: 1fr; }
+    .do-dont-grid { flex-direction: column; }
+  }
+
+  /* ─── AJOUTS PLAN TC ─── */
+  .limits {
+    position: sticky; top: 0; z-index: 30; margin: 0 0 18px;
+    background: rgba(15,23,42,0.97); backdrop-filter: blur(8px);
+    border: 1px solid rgba(239,68,68,0.32); border-radius: 12px; padding: 13px 16px;
+  }
+  .limits .lt { font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #f87171; margin-bottom: 7px; }
+  .limits ol { margin: 0 0 9px 17px; padding: 0; font-size: 12.5px;
+    color: var(--text-mid); line-height: 1.5; }
+  .limits ol li { margin-bottom: 3px; }
+  .limits .stop { font-size: 12.5px; font-weight: 600; color: #fca5a5;
+    border-top: 1px solid rgba(239,68,68,0.2); padding-top: 8px; }
+  .wk-selector { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .wk-btn { flex: 1 1 auto; min-width: 62px; background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(100,116,139,0.18); border-radius: 10px;
+    padding: 8px 6px; cursor: pointer; text-align: center; transition: 0.18s; }
+  .wk-btn .wn { display: block; font-size: 13px; font-weight: 700; color: var(--text-hi); }
+  .wk-btn .wd { display: block; font-size: 9.5px; color: var(--text-foot); margin-top: 1px; }
+  .wk-btn:hover { border-color: rgba(148,163,184,0.4); }
+  .wk-btn.active { background: linear-gradient(135deg,#0ea5e9,#6366f1);
+    border-color: transparent; box-shadow: 0 2px 10px rgba(14,165,233,0.28); }
+  .wk-btn.active .wn, .wk-btn.active .wd { color: #fff; }
+  .wk-block { display: none; } .wk-block.active { display: block; }
+  .wk-head { border-radius: 14px; padding: 14px 18px; margin-bottom: 14px;
+    background: var(--card); border: 1px solid rgba(100,116,139,0.18); }
+  .wk-head .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 7px; }
+  .wk-head .pill { border-radius: 9px; padding: 3px 10px; font-size: 10.5px;
+    font-weight: 800; color: #fff; letter-spacing: 0.05em; }
+  .wk-head .loc { font-size: 11px; color: var(--text-lo); }
+  .wk-head h2 { font-size: 17px; font-weight: 700; color: var(--text-hi); margin-bottom: 5px; }
+  .wk-head .fc { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; }
+  .wk-head .cad { margin-top: 8px; font-size: 11.5px; color: #7dd3fc;
+    background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 8px; padding: 6px 11px; display: inline-block; }
+  .wk-head .nte { margin-top: 9px; font-size: 11.5px; color: var(--text-lo);
+    border-top: 1px solid rgba(100,116,139,0.14); padding-top: 8px; line-height: 1.5; }
+  .sess { border-radius: 13px; border: 1px solid rgba(100,116,139,0.18);
+    background: var(--card); margin-bottom: 11px; overflow: hidden; }
+  .sess .sh { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
+    padding: 10px 16px; background: rgba(30,41,59,0.55);
+    border-bottom: 1px solid rgba(100,116,139,0.14); }
+  .sess .sn { font-size: 13.5px; font-weight: 700; color: var(--text-hi); }
+  .sess .st { font-size: 11px; color: var(--text-lo); }
+  .sess .sd { margin-left: auto; font-size: 11px; color: var(--text-foot); }
+  .sess .sb { padding: 11px 16px; }
+  .exo { padding: 9px 0; border-bottom: 1px solid rgba(100,116,139,0.1); }
+  .exo:last-child { border-bottom: none; padding-bottom: 2px; }
+  .exo .en { font-size: 12.5px; font-weight: 600; color: var(--text-hi); margin-bottom: 3px; }
+  .exo .ed { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .optbox { margin: 10px 16px 13px; background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25); border-radius: 10px; padding: 9px 13px; }
+  .optbox .ot { font-size: 10px; font-weight: 800; letter-spacing: 0.09em;
+    text-transform: uppercase; color: #fbbf24; margin-bottom: 4px; }
+  .optbox .ob { font-size: 11.5px; color: var(--text-mid); line-height: 1.5; }
+  .ptags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .ptag { font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em;
+    background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.28);
+    color: #6ee7b7; border-radius: 6px; padding: 2px 7px; cursor: help; }
+  .legend { background: var(--card); border: 1px solid rgba(100,116,139,0.18);
+    border-radius: 12px; padding: 14px 17px; margin-bottom: 14px; }
+  .legend .lrow { display: flex; gap: 10px; padding: 7px 0;
+    border-bottom: 1px solid rgba(100,116,139,0.1); }
+  .legend .lrow:last-child { border-bottom: none; }
+  .legend .lc { flex-shrink: 0; font-size: 10px; font-weight: 800; color: #6ee7b7;
+    background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.28);
+    border-radius: 6px; padding: 2px 7px; height: fit-content; }
+  .legend .lx { font-size: 12px; color: var(--text-mid); line-height: 1.5; font-style: italic; }
+  .excl { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 11px; padding: 12px 16px; margin-bottom: 10px; }
+  .excl .et { font-size: 12.5px; font-weight: 700; color: #fca5a5; margin-bottom: 4px; }
+  .excl .ex2 { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .test { background: var(--card); border: 1px solid rgba(100,116,139,0.18);
+    border-radius: 13px; padding: 14px 17px; margin-bottom: 12px; }
+  .test .th { display: flex; align-items: baseline; gap: 9px; margin-bottom: 8px; }
+  .test .tn { font-size: 10.5px; font-weight: 800; color: #fff; letter-spacing: 0.06em;
+    background: linear-gradient(135deg,#0ea5e9,#6366f1); border-radius: 8px; padding: 3px 9px; }
+  .test .tt { font-size: 14px; font-weight: 700; color: var(--text-hi); }
+  .test .tm { font-size: 11.5px; color: var(--text-foot); margin-bottom: 8px; font-style: italic; }
+  .test ol { margin: 0 0 9px 17px; font-size: 12px; color: var(--text-mid); line-height: 1.55; }
+  .test .tr { font-size: 11.5px; color: #7dd3fc; background: rgba(14,165,233,0.1);
+    border: 1px solid rgba(14,165,233,0.2); border-radius: 8px; padding: 7px 11px; }
+  .quote { background: rgba(30,41,59,0.62); border-left: 3px solid #10b981;
+    border-radius: 0 11px 11px 0; padding: 12px 16px; margin-bottom: 14px;
+    font-size: 12.5px; color: var(--text-mid); line-height: 1.6; font-style: italic; }
+  .quote .src { display: block; margin-top: 8px; font-style: normal;
+    font-size: 11px; color: var(--text-foot); }
+  @media (max-width: 520px) {
+    .wk-btn { min-width: 0; flex: 1 1 20%; }
+    .wk-btn .wd { display: none; }
+    .sess .sd { margin-left: 0; width: 100%; }
+  }
+
+  /* ─── SCHÉMAS ─── */
+  .diag { background: rgba(15,23,42,0.55); border: 1px solid rgba(100,116,139,0.18);
+    border-radius: 13px; padding: 14px 14px 10px; margin-bottom: 14px; }
+  .diag h4 { font-size: 13.5px; font-weight: 700; color: var(--text-hi); margin-bottom: 3px; }
+  .diag .dsub { font-size: 11.5px; color: var(--text-lo); margin-bottom: 10px; line-height: 1.45; }
+  .diag svg { width: 100%; height: auto; display: block; }
+  .diag .steps { margin: 10px 0 0 17px; padding: 0; font-size: 12px;
+    color: var(--text-mid); line-height: 1.55; }
+  .diag .steps li { margin-bottom: 3px; }
+  .diag-mini { margin-top: 12px; }
+  .diag-mini h4 { font-size: 12.5px; }
+  .dlegend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 9px;
+    padding-top: 9px; border-top: 1px solid rgba(100,116,139,0.14); }
+  .dlegend span { display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10.5px; color: var(--text-foot); }
+  .dlegend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="header">
+    <div class="badge">Plan de Développement Individuel &mdash; Phase 1</div>
+    <h1>T. C.</h1>
+    <p class="sub">Plan technique individualisé &middot; Retour au soccer après chirurgie ligamentaire</p>
+    <p class="det">8 Semaines &nbsp;&middot;&nbsp; 7 Septembre Au 1er Novembre 2026 &nbsp;&middot;&nbsp; 3 À 4 Séances De 30 À 45 Min</p>
+  </header>
+
+  <div class="limits">
+    <div class="lt">Deux limites, jusqu'à ton rendez-vous avec l'orthopédiste</div>
+    <ol>
+      <li>Aucune situation de jeu, aucune opposition, aucun duel. Même passif, même en amical.</li>
+      <li>La progression suit la liste écrite de ton physiothérapeute. Ce qui n'y figure pas attend la phase 2.</li>
+    </ol>
+    <div class="stop">Douleur ou instabilité : tu arrêtes la séance, tu notes ce que tu faisais et à quelle vitesse, tu m'écris le jour même.</div>
+  </div>
+
+  <nav class="tab-rail" role="tablist">
+    <button class="tab-btn active" data-tab="0" role="tab">Les 8 semaines</button>
+    <button class="tab-btn"        data-tab="1" role="tab">Les 3 parcours</button>
+    <button class="tab-btn"        data-tab="2" role="tab">Vue d'ensemble</button>
+    <button class="tab-btn"        data-tab="3" role="tab">Tes mesures</button>
+    <button class="tab-btn"        data-tab="4" role="tab">Ce qui autorise quoi</button>
+  </nav>
+
+<section class="panel active" data-panel="0">
+<div class="wk-selector">
+<button class="wk-btn active" data-wk="1"><span class="wn">S1</span><span class="wd">7</span></button>
+<button class="wk-btn" data-wk="2"><span class="wn">S2</span><span class="wd">14</span></button>
+<button class="wk-btn" data-wk="3"><span class="wn">S3</span><span class="wd">21</span></button>
+<button class="wk-btn" data-wk="4"><span class="wn">S4</span><span class="wd">28 septembre</span></button>
+<button class="wk-btn" data-wk="5"><span class="wn">S5</span><span class="wd">5</span></button>
+<button class="wk-btn" data-wk="6"><span class="wn">S6</span><span class="wd">12</span></button>
+<button class="wk-btn" data-wk="7"><span class="wn">S7</span><span class="wd">19</span></button>
+<button class="wk-btn" data-wk="8"><span class="wn">S8</span><span class="wd">26 octobre</span></button>
+</div>
+<div class="wk-block active" data-wkb="1">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#0ea5e9">Semaine 1</span><span class="loc">7 au 13 septembre &middot; Sous-sol</span></div>
+<h2>Mesures de référence et maîtrise statique</h2>
+<p class="fc">Établir ton point de départ et remettre le pied sur le ballon. Aucun virage balle au pied cette semaine.</p>
+<div class="cad">3 séances de 30 minutes</div>
+<div class="nte">Les quatre tests se font au sous-sol, jamais sur le terrain. C'est ce qui te permettra de les refaire à l'identique en février, quand il y aura de la neige dehors.</div>
+</div>
+<div class="diag diag-mini"><h4>La boucle</h4><div class="dsub">Quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Un tour complet donne quatre virages à 90 degrés.</div><svg viewBox="0 0 350 266" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boucle rectangulaire de 5 metres sur 3 metres, un cone a chaque coin"><rect x="88" y="92" width="200" height="120" fill="none" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="108.0" y1="92.0" x2="266.0" y2="92.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="266.0,92.0 255.0,97.5 255.0,86.5" fill="#38bdf8"/><line x1="288.0" y1="112.0" x2="288.0" y2="190.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="288.0,190.0 282.5,179.0 293.5,179.0" fill="#38bdf8"/><line x1="268.0" y1="212.0" x2="110.0" y2="212.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="110.0,212.0 121.0,206.5 121.0,217.5" fill="#38bdf8"/><line x1="88.0" y1="192.0" x2="88.0" y2="114.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="88.0,114.0 93.5,125.0 82.5,125.0" fill="#38bdf8"/><g><path d="M88.0,77.0 L80.5,92.0 L95.5,92.0 z" fill="#f59e0b"/><rect x="80.5" y="92.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M288.0,77.0 L280.5,92.0 L295.5,92.0 z" fill="#f59e0b"/><rect x="280.5" y="92.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M288.0,197.0 L280.5,212.0 L295.5,212.0 z" fill="#f59e0b"/><rect x="280.5" y="212.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M88.0,197.0 L80.5,212.0 L95.5,212.0 z" fill="#f59e0b"/><rect x="80.5" y="212.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="95.8" y="105.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="116.0" y="122.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="239.8" y="105.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="260.0" y="122.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="239.8" y="175.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="260.0" y="192.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="95.8" y="175.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="116.0" y="192.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><line x1="88.0" y1="49.0" x2="88.0" y2="59.0" stroke="#475569" stroke-width="1"/><line x1="288.0" y1="49.0" x2="288.0" y2="59.0" stroke="#475569" stroke-width="1"/><line x1="88.0" y1="54.0" x2="288.0" y2="54.0" stroke="#475569" stroke-width="1"/><rect x="170.0" y="45.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="188.0" y="58.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">5 m</text></g><g><line x1="45.0" y1="92.0" x2="55.0" y2="92.0" stroke="#475569" stroke-width="1"/><line x1="45.0" y1="212.0" x2="55.0" y2="212.0" stroke="#475569" stroke-width="1"/><line x1="50.0" y1="92.0" x2="50.0" y2="212.0" stroke="#475569" stroke-width="1"/><rect x="32.0" y="143.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="50.0" y="156.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">3 m</text></g><g><circle cx="64.0" cy="68.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="64.0" y="72.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="252.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">Un tour complet = quatre virages à 90 degrés</text></svg><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">Mesures de référence</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Échauffement</div><div class="ed">5 minutes de marche sur place, puis mobilité de cheville et de hanche.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Test 1 : touches propres en 30 secondes</div><div class="ed">Semelles alternées sur place, dans un carré d'un mètre marqué au sol.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Test 2 : précision de passe à 6 mètres</div><div class="ed">Cible d'un mètre de large au mur. 10 passes du pied droit, 10 du pied gauche.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Test 3 : conduite chronométrée sur la boucle</div><div class="ed">Quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Deux tours complets, soit huit virages à 90 degrés. Cette semaine, à vitesse de marche rapide seulement.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Test 4 : frappe placée à 6 mètres</div><div class="ed">Cible d'un mètre et demi au mur, à hauteur de genou ou plus bas. 5 frappes du pied droit, 5 du pied gauche.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Notation</div><div class="ed">Tu inscris les quatre résultats et les conditions : surface, chaussures, moment de la journée. On reprend tout en semaine 8, puis en février.</div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Statique</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Semelles alternées</div><div class="ed">6 séries de 30 secondes sur place, 30 secondes de repos entre les séries.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Intérieur contre intérieur</div><div class="ed">6 séries de 30 secondes sur place.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Contrôles de poitrine au mur</div><div class="ed">4 séries de 10. Tu lances, tu amortis, tu reprends au pied. Pieds au sol.</div><div class="ptags"><span class="ptag" title="Retour au sport et renforcement du haut du corps sans restrictions">P7</span></div></div>
+<div class="exo"><div class="en">Remises en jeu au mur</div><div class="ed">3 séries de 10. Geste complet, pieds au sol.</div><div class="ptags"><span class="ptag" title="Retour au sport et renforcement du haut du corps sans restrictions">P7</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Statique et appuis</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Semelles et rouleaux</div><div class="ed">8 séries de 30 secondes.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Marche rapide sur la boucle, sans ballon</div><div class="ed">Boucle du sous-sol : quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Tu fais le tour, ce qui donne quatre virages à 90 degrés par tour. 6 tours, à vitesse de marche rapide. Aucune course cette semaine.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+<div class="exo"><div class="en">Contrôles de poitrine et de cuisse</div><div class="ed">4 séries de 10.</div><div class="ptags"><span class="ptag" title="Retour au sport et renforcement du haut du corps sans restrictions">P7</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="2">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#0ea5e9">Semaine 2</span><span class="loc">14 au 20 septembre &middot; Sous-sol</span></div>
+<h2>Déplacement lent, ballon au pied</h2>
+<p class="fc">Le ballon se déplace avec toi, en ligne droite seulement. Toujours aucun virage balle au pied.</p>
+<div class="cad">3 séances de 30 minutes</div>
+<div class="nte">Tout tient dans les 5 mètres du sous-sol. Si un exercice te demande plus d'espace que tu en as, écris-moi plutôt que de l'improviser ailleurs.</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">Conduite</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Conduite de l'intérieur du pied</div><div class="ed">Aller-retour sur 5 mètres, 10 fois. Vitesse de marche. Le demi-tour se fait à l'arrêt, ballon immobilisé.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Conduite du pied faible</div><div class="ed">Aller-retour sur 5 mètres, 8 fois.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Semelles en déplacement latéral</div><div class="ed">6 séries de 30 secondes, sur 3 mètres, vitesse de marche.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Toucher</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Intérieur contre extérieur</div><div class="ed">6 séries de 30 secondes sur place.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Passes au mur à 4 mètres</div><div class="ed">4 séries de 20, en alternant les deux pieds.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Remises en jeu</div><div class="ed">4 séries de 10.</div><div class="ptags"><span class="ptag" title="Retour au sport et renforcement du haut du corps sans restrictions">P7</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Continu</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Conduite continue en aller-retour</div><div class="ed">4 séries de 3 minutes sans arrêt sur 5 mètres, à vitesse de marche rapide. 60 secondes de repos entre les séries.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+<div class="exo"><div class="en">Marche rapide sur la boucle, sans ballon</div><div class="ed">8 tours, sans ballon.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="3">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#f59e0b">Semaine 3</span><span class="loc">21 au 27 septembre &middot; Sous-sol</span></div>
+<h2>Premiers virages à 90 degrés, sans ballon</h2>
+<p class="fc">Le virage arrive, mais sans ballon. Tu apprends l'appui avant d'y ajouter la contrainte technique.</p>
+<div class="cad">3 à 4 séances de 35 minutes</div>
+<div class="nte">Sur 5 mètres, tu n'atteindras jamais une vraie vitesse de course, et c'est voulu. Ce qu'on travaille, c'est l'appui du virage, pas la ligne droite.</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">Virages sans ballon</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Carioca sur 5 mètres</div><div class="ed">8 aller-retours à vitesse contrôlée. Pas à pleine vitesse cette semaine.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+<div class="exo"><div class="en">Boucle à 90 degrés, en trot</div><div class="ed">Boucle du sous-sol : quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Tu fais le tour, ce qui donne quatre virages à 90 degrés par tour. 8 tours en trot, avec un appui net à chaque coin. Repos de 45 secondes tous les 2 tours.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span></div></div>
+<div class="exo"><div class="en">Conduite en ligne droite</div><div class="ed">8 aller-retours de 5 mètres, ballon au pied, vitesse de marche.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Toucher et appuis</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Semelles et intérieur-extérieur</div><div class="ed">8 séries de 30 secondes.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Carioca sur 5 mètres</div><div class="ed">8 aller-retours à vitesse contrôlée.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+<div class="exo"><div class="en">Passes au mur à 4 mètres</div><div class="ed">4 séries de 20.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Continu</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Conduite continue en aller-retour</div><div class="ed">5 séries de 3 minutes.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+<div class="exo"><div class="en">Boucle à 90 degrés, en trot</div><div class="ed">5 séries de 90 secondes en continu, sans ballon. 60 secondes de repos.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Mêmes exercices, moitié du volume. À faire seulement si la semaine te le permet.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="4">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#f59e0b">Semaine 4</span><span class="loc">28 septembre au 4 octobre &middot; Sous-sol</span></div>
+<h2>Virages à 90 degrés balle au pied</h2>
+<p class="fc">Le ballon rejoint le virage. Vitesse de marche rapide, jamais plus vite cette semaine.</p>
+<div class="cad">3 à 4 séances de 35 minutes</div>
+<div class="nte">Dernière semaine au sous-sol. La semaine prochaine, tu sors.</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">90 degrés balle au pied</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Carioca sur 5 mètres</div><div class="ed">8 aller-retours à vitesse contrôlée.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+<div class="exo"><div class="en">Boucle à 90 degrés, ballon au pied</div><div class="ed">Boucle du sous-sol : quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Tu fais le tour, ce qui donne quatre virages à 90 degrés par tour. 10 tours à vitesse de marche rapide. Repos complet de 60 secondes tous les 2 tours.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Conduite du pied faible</div><div class="ed">8 aller-retours de 5 mètres.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Décision rapide</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Parcours à repères visuels</div><div class="ed">Trois cônes de couleurs différentes contre trois murs. Tu conduis vers le centre, une minuterie aléatoire sur ton téléphone annonce une couleur, tu pars vers ce cône. Vitesse de marche rapide. 12 répétitions.</div><div class="ptags"><span class="ptag" title="Drill de décision rapide de dernière minute">P6</span><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span></div></div>
+<div class="exo"><div class="en">Passes au mur avec contrôle orienté</div><div class="ed">4 séries de 20. Le premier contact oriente le ballon dans la direction du prochain geste.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Continu</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Boucle continue, ballon au pied</div><div class="ed">5 séries de 3 minutes à vitesse de marche rapide, 90 secondes de repos.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">30 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Moitié du volume.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="5">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#10b981">Semaine 5</span><span class="loc">5 au 11 octobre &middot; Terrain UQO ou Darcy McGee</span></div>
+<h2>Passage au terrain. Virages à 180 degrés sans ballon</h2>
+<p class="fc">Le gazon change les appuis et te donne enfin de la distance. Le 180 arrive sans ballon, le 90 passe à vitesse de jogging avec ballon.</p>
+<div class="cad">3 à 4 séances de 40 minutes</div>
+<div class="nte">Si le terrain est mouillé, gelé ou enneigé, tu ne t'y aventures pas. Chaque séance a son option sous-sol juste en dessous.</div>
+</div>
+<div class="diag diag-mini"><h4>La navette</h4><div class="dsub">Deux cônes à 5 mètres. Tu vas, tu fais demi-tour, tu reviens. Chaque demi-tour est un virage à 180 degrés.</div><svg viewBox="0 0 350 208" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Navette de 5 metres entre deux cones, demi-tour à 180 degrés"><line x1="60" y1="112" x2="260" y2="112" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="76.0" y1="85.0" x2="258.0" y2="85.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="258.0,85.0 247.0,90.5 247.0,79.5" fill="#38bdf8"/><path d="M264,85 Q292,112 264,139" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><line x1="258.0" y1="139.0" x2="76.0" y2="139.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="76.0,139.0 87.0,133.5 87.0,144.5" fill="#38bdf8"/><g><path d="M60.0,97.0 L52.5,112.0 L67.5,112.0 z" fill="#f59e0b"/><rect x="52.5" y="112.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M260.0,97.0 L252.5,112.0 L267.5,112.0 z" fill="#f59e0b"/><rect x="252.5" y="112.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="290.2" y="99.0" width="47.6" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="314.0" y="116.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">180°</text></g><g><line x1="60.0" y1="171.0" x2="60.0" y2="181.0" stroke="#475569" stroke-width="1"/><line x1="260.0" y1="171.0" x2="260.0" y2="181.0" stroke="#475569" stroke-width="1"/><line x1="60.0" y1="176.0" x2="260.0" y2="176.0" stroke="#475569" stroke-width="1"/><rect x="142.0" y="167.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="160.0" y="180.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">5 m</text></g><g><circle cx="34.0" cy="85.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="34.0" y="89.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="200.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">Un aller-retour = deux virages à 180 degrés</text></svg><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">180 sans ballon</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Échauffement</div><div class="ed">6 minutes de jogging léger, puis 6 passages de carioca sur 20 mètres.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+<div class="exo"><div class="en">Navettes avec virage à 180 degrés</div><div class="ed">12 passages de 15 mètres, sans ballon. Vitesse de jogging, demi-tour net.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span></div></div>
+<div class="exo"><div class="en">Conduite avec virages à 90 degrés</div><div class="ed">8 passages de 20 mètres avec deux virages, à vitesse de jogging léger.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : Navette du sous-sol : deux cônes à 5 mètres. Tu vas, tu fais demi-tour, tu reviens. Chaque demi-tour est un virage à 180 degrés. 12 aller-retours en trot, sans ballon. Puis 8 tours de boucle, ballon au pied.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Cuts à 45 sans ballon</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Parcours de cuts à 45 degrés</div><div class="ed">10 passages de 25 mètres, sans ballon, à vitesse contrôlée.</div><div class="ptags"><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span></div></div>
+<div class="exo"><div class="en">Conduite en ligne droite sur gazon</div><div class="ed">8 passages de 30 mètres. Le gazon freine le ballon, tu vas devoir toucher plus souvent.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : zigzag de 4 cônes espacés de 2 mètres, angles de 45 degrés, 12 passages sans ballon à vitesse de marche rapide. Puis 8 aller-retours de conduite sur 5 mètres.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Continu et frappes</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Conduite continue avec virages à 90 degrés</div><div class="ed">5 séries de 4 minutes, 90 secondes de repos.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+<div class="exo"><div class="en">Frappes placées</div><div class="ed">15 frappes vers une cible à 12 mètres, en alternant les deux pieds. Sans longue course d'élan.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 5 séries de 3 minutes de boucle ballon au pied, puis 15 frappes placées à 6 mètres, à hauteur de genou ou plus bas.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Moitié du volume.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="6">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#10b981">Semaine 6</span><span class="loc">12 au 18 octobre &middot; Terrain</span></div>
+<h2>Cuts à 45 degrés balle au pied. Le cardio passe par le ballon</h2>
+<p class="fc">Le changement de direction à 45 degrés arrive avec le ballon, à vitesse contrôlée. Le circuit remplace la course.</p>
+<div class="cad">3 à 4 séances de 40 minutes</div>
+<div class="nte">Aucun sprint en ligne droite dans ce plan. Le travail de course en ligne appartient à ton plan physique, pas à celui-ci.</div>
+</div>
+<div class="diag diag-mini"><h4>Le zigzag à 45 degrés</h4><div class="dsub">Quatre cônes en quinconce, espacés de 2 mètres le long du trajet. À chaque cône, tu changes de direction de 45 degrés. Ce sont les deux segments qui forment 45 degrés entre eux, pas la position du cône.</div><svg viewBox="0 0 350 222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zigzag de quatre cones espaces de 2 metres, changement de direction de 45 degres a chaque cone"><line x1="34" y1="122.7" x2="308" y2="122.7" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><text x="312" y="126.2" fill="#475569" font-size="10.5" font-family="Arial,Helvetica,sans-serif">axe</text><line x1="78.6" y1="131.1" x2="130.9" y2="109.5" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="130.9,109.5 122.9,118.7 118.7,108.6" fill="#38bdf8"/><line x1="152.5" y1="114.3" x2="204.8" y2="135.9" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="204.8,135.9 192.6,136.8 196.8,126.6" fill="#38bdf8"/><line x1="226.5" y1="131.1" x2="278.7" y2="109.5" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="278.7,109.5 270.7,118.7 266.5,108.6" fill="#38bdf8"/><g><path d="M62.0,123.0 L54.5,138.0 L69.5,138.0 z" fill="#f59e0b"/><rect x="54.5" y="138.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M135.9,92.4 L128.4,107.4 L143.4,107.4 z" fill="#f59e0b"/><rect x="128.4" y="107.4" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M209.8,123.0 L202.3,138.0 L217.3,138.0 z" fill="#f59e0b"/><rect x="202.3" y="138.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M283.7,92.4 L276.2,107.4 L291.2,107.4 z" fill="#f59e0b"/><rect x="276.2" y="107.4" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="117.7" y="56.4" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="137.9" y="73.6" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45°</text></g><g><rect x="191.6" y="161.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="211.8" y="178.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45°</text></g><g><line x1="71.9" y1="162.0" x2="145.9" y2="131.4" stroke="#475569" stroke-width="1"/><line x1="65.0" y1="145.2" x2="71.9" y2="162.0" stroke="#475569" stroke-width="1"/><line x1="138.9" y1="114.6" x2="145.9" y2="131.4" stroke="#475569" stroke-width="1"/><rect x="90.9" y="137.7" width="36" height="18" rx="4" fill="#0f172a"/><text x="108.9" y="151.2" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">2 m</text></g><g><circle cx="36.0" cy="128.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="36.0" y="132.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="216.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45 degrés, c'est l'écart entre deux segments</text></svg><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">45 degrés balle au pied</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Carioca</div><div class="ed">6 passages de 20 mètres, vitesse contrôlée.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+<div class="exo"><div class="en">Cuts à 45 degrés balle au pied</div><div class="ed">12 passages de 25 mètres, à vitesse contrôlée.</div><div class="ptags"><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Frappes après conduite</div><div class="ed">15 répétitions. Conduite de 10 mètres, puis frappe placée.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : zigzag de 4 cônes espacés de 2 mètres, ballon au pied, 14 passages à vitesse de marche rapide. Puis 15 frappes placées à 6 mètres.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Décision balle au pied</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Parcours à repères visuels, ballon au pied</div><div class="ed">La couleur est annoncée au dernier moment. Vitesse contrôlée. 12 répétitions.</div><div class="ptags"><span class="ptag" title="Drill de décision rapide de dernière minute">P6</span><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span></div></div>
+<div class="exo"><div class="en">Conduite avec virages à 180 degrés</div><div class="ed">10 passages, à vitesse de jogging.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : repères visuels avec minuterie aléatoire, ballon au pied, 14 répétitions. Puis 10 navettes avec virage à 180 degrés.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Circuit continu</span><span class="sd">40 min</span></div><div class="sb">
+<div class="exo"><div class="en">Circuit ballon au pied</div><div class="ed">Conduite de 30 mètres, virage à 90, conduite de 30 mètres, virage à 180, retour. 6 séries de 4 minutes, 90 secondes de repos.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 6 séries de 3 minutes en alternant boucle à 90 degrés et navette à 180 degrés, ballon au pied.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Moitié du volume.</div><div class="ptags"><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="7">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#6366f1">Semaine 7</span><span class="loc">19 au 25 octobre &middot; Terrain</span></div>
+<h2>Première montée en vitesse</h2>
+<p class="fc">Première semaine où tu vas vite. Le 90 degrés balle au pied passe à vitesse élevée, le 180 reste contrôlé.</p>
+<div class="cad">3 à 4 séances de 45 minutes</div>
+<div class="nte">La montée en vitesse ne se fait que sur le terrain. Si la météo t'oblige à rester au sous-sol toute la semaine, tu restes à la vitesse de la semaine 6 et tu me le dis. On décale, on ne compresse pas.</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">Vitesse sur le 90</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Échauffement long</div><div class="ed">8 minutes de jogging progressif, puis 6 passages de carioca à pleine vitesse sur 20 mètres.</div><div class="ptags"><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+<div class="exo"><div class="en">Conduite avec virages à 90 degrés, vitesse élevée</div><div class="ed">10 passages, 90 secondes de repos entre chacun. Première fois à cette vitesse : si un appui te semble incertain, tu redescends au niveau de la semaine 6 et tu m'écris.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Frappes après conduite rapide</div><div class="ed">15 répétitions.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : la vitesse élevée ne se travaille pas sur 5 mètres. Tu refais la séance A de la semaine 6 et tu notes que la montée en vitesse est reportée.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">180 et 45</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Conduite avec virages à 180 degrés</div><div class="ed">10 passages à vitesse contrôlée. Le 180 ne monte pas en vitesse dans ce bloc.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Cuts à 45 degrés balle au pied, vitesse élevée</div><div class="ed">10 passages de 25 mètres.</div><div class="ptags"><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 12 navettes avec virage à 180 degrés ballon au pied, puis zigzag à 45 degrés, 14 passages à vitesse de marche rapide.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Circuit</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Circuit continu</div><div class="ed">6 séries de 4 minutes, en alternant 45, 90 et 180 degrés.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 6 séries de 3 minutes en alternant boucle, navette et zigzag, ballon au pied.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Moitié du volume, à la vitesse de la semaine 6.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Carioca à pleine vitesse">P4</span></div></div>
+</div>
+</div>
+</div>
+<div class="wk-block" data-wkb="8">
+<div class="wk-head">
+<div class="meta"><span class="pill" style="background:#6366f1">Semaine 8</span><span class="loc">26 octobre au 1er novembre &middot; Terrain et sous-sol</span></div>
+<h2>Intégration et reprise des mesures</h2>
+<p class="fc">Tout se met bout à bout, puis on remesure. Cette semaine se termine autour de ton rendez-vous avec l'orthopédiste.</p>
+<div class="cad">3 à 4 séances de 45 minutes</div>
+<div class="nte">La séance B se fait au sous-sol, quelle que soit la météo. Les tests doivent être pris dans les mêmes conditions qu'en semaine 1, sinon la comparaison ne vaut rien.</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance A</span><span class="st">Circuit intégré</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Parcours complet</div><div class="ed">Cut à 45, virage à 90, virage à 180, frappe placée en fin de parcours. 8 passages à vitesse élevée, sauf le 180 qui reste contrôlé.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 8 tours enchaînant boucle, zigzag et navette, puis 10 frappes placées à 6 mètres.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance B</span><span class="st">Reprise des mesures, au sous-sol</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Les quatre tests</div><div class="ed">Même ordre, même matériel, mêmes distances qu'en semaine 1. Au sous-sol, pas sur le terrain.</div><div class="ptags"><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Seul changement, sur le test 3</div><div class="ed">La boucle chronométrée se fait maintenant en trot, pas à vitesse de marche rapide. Note les deux chiffres séparément pour garder la comparaison avec septembre.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Tu peux retourner au sport par toi-même avec risque minime de re-blessure">P8</span></div></div>
+<div class="exo"><div class="en">Ce que tu m'envoies</div><div class="ed">Les quatre résultats, et une phrase sur ce que ton genou t'a dit pendant les huit semaines.</div></div>
+</div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance C</span><span class="st">Continu</span><span class="sd">45 min</span></div><div class="sb">
+<div class="exo"><div class="en">Circuit continu</div><div class="ed">6 séries de 4 minutes.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span><span class="ptag" title="Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité">P9</span></div></div>
+</div>
+<div class="optbox"><div class="ot">Option hiver ou mauvaise météo</div><div class="ob">Au sous-sol : 6 séries de 3 minutes en alternant boucle, navette et zigzag.</div></div>
+</div>
+<div class="sess"><div class="sh"><span class="sn">Séance D</span><span class="st">Optionnelle</span><span class="sd">35 min</span></div><div class="sb">
+<div class="exo"><div class="en">Reprise allégée de la séance A</div><div class="ed">Moitié du volume.</div><div class="ptags"><span class="ptag" title="Jogging avec tournants de 90, 180 et 360 degrés">P1</span><span class="ptag" title="Cuts à 45 degrés d'angle de changement de direction">P2</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="panel" data-panel="1">
+<div class="info-box cyan">Trois dispositions de cônes couvrent tout le plan. Tu les montes une fois, tu les retrouves partout. Les distances sont exactes : mesure-les au ruban la première fois, marque le sol si tu peux, et garde les mêmes repères jusqu'en février. Les tests ne valent que si le parcours ne bouge pas.</div>
+<div class="diag"><h4>La boucle</h4><div class="dsub">Quatre cônes aux coins d'un rectangle de 5 mètres sur 3. Un tour complet donne quatre virages à 90 degrés.</div><svg viewBox="0 0 350 266" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boucle rectangulaire de 5 metres sur 3 metres, un cone a chaque coin"><rect x="88" y="92" width="200" height="120" fill="none" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="108.0" y1="92.0" x2="266.0" y2="92.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="266.0,92.0 255.0,97.5 255.0,86.5" fill="#38bdf8"/><line x1="288.0" y1="112.0" x2="288.0" y2="190.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="288.0,190.0 282.5,179.0 293.5,179.0" fill="#38bdf8"/><line x1="268.0" y1="212.0" x2="110.0" y2="212.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="110.0,212.0 121.0,206.5 121.0,217.5" fill="#38bdf8"/><line x1="88.0" y1="192.0" x2="88.0" y2="114.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="88.0,114.0 93.5,125.0 82.5,125.0" fill="#38bdf8"/><g><path d="M88.0,77.0 L80.5,92.0 L95.5,92.0 z" fill="#f59e0b"/><rect x="80.5" y="92.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M288.0,77.0 L280.5,92.0 L295.5,92.0 z" fill="#f59e0b"/><rect x="280.5" y="92.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M288.0,197.0 L280.5,212.0 L295.5,212.0 z" fill="#f59e0b"/><rect x="280.5" y="212.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M88.0,197.0 L80.5,212.0 L95.5,212.0 z" fill="#f59e0b"/><rect x="80.5" y="212.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="95.8" y="105.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="116.0" y="122.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="239.8" y="105.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="260.0" y="122.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="239.8" y="175.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="260.0" y="192.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><rect x="95.8" y="175.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="116.0" y="192.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">90°</text></g><g><line x1="88.0" y1="49.0" x2="88.0" y2="59.0" stroke="#475569" stroke-width="1"/><line x1="288.0" y1="49.0" x2="288.0" y2="59.0" stroke="#475569" stroke-width="1"/><line x1="88.0" y1="54.0" x2="288.0" y2="54.0" stroke="#475569" stroke-width="1"/><rect x="170.0" y="45.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="188.0" y="58.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">5 m</text></g><g><line x1="45.0" y1="92.0" x2="55.0" y2="92.0" stroke="#475569" stroke-width="1"/><line x1="45.0" y1="212.0" x2="55.0" y2="212.0" stroke="#475569" stroke-width="1"/><line x1="50.0" y1="92.0" x2="50.0" y2="212.0" stroke="#475569" stroke-width="1"/><rect x="32.0" y="143.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="50.0" y="156.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">3 m</text></g><g><circle cx="64.0" cy="68.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="64.0" y="72.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="252.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">Un tour complet = quatre virages à 90 degrés</text></svg><ol class="steps"><li>Mesure 5 mètres dans le sens le plus long de ton sous-sol, puis 3 mètres dans l'autre sens.</li><li>Place un cône, un soulier ou une bouteille à chacun des quatre coins.</li><li>Tu pars du coin marqué D et tu tournes toujours dans le même sens.</li><li>Change de sens à chaque série, pour que les deux jambes travaillent également.</li><li>C'est ce parcours qui sert au test 3, en septembre, en novembre et en février.</li></ol><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="diag"><h4>La navette</h4><div class="dsub">Deux cônes à 5 mètres. Tu vas, tu fais demi-tour, tu reviens. Chaque demi-tour est un virage à 180 degrés.</div><svg viewBox="0 0 350 208" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Navette de 5 metres entre deux cones, demi-tour à 180 degrés"><line x1="60" y1="112" x2="260" y2="112" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="76.0" y1="85.0" x2="258.0" y2="85.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="258.0,85.0 247.0,90.5 247.0,79.5" fill="#38bdf8"/><path d="M264,85 Q292,112 264,139" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><line x1="258.0" y1="139.0" x2="76.0" y2="139.0" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="76.0,139.0 87.0,133.5 87.0,144.5" fill="#38bdf8"/><g><path d="M60.0,97.0 L52.5,112.0 L67.5,112.0 z" fill="#f59e0b"/><rect x="52.5" y="112.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M260.0,97.0 L252.5,112.0 L267.5,112.0 z" fill="#f59e0b"/><rect x="252.5" y="112.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="290.2" y="99.0" width="47.6" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="314.0" y="116.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">180°</text></g><g><line x1="60.0" y1="171.0" x2="60.0" y2="181.0" stroke="#475569" stroke-width="1"/><line x1="260.0" y1="171.0" x2="260.0" y2="181.0" stroke="#475569" stroke-width="1"/><line x1="60.0" y1="176.0" x2="260.0" y2="176.0" stroke="#475569" stroke-width="1"/><rect x="142.0" y="167.0" width="36" height="18" rx="4" fill="#0f172a"/><text x="160.0" y="180.5" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">5 m</text></g><g><circle cx="34.0" cy="85.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="34.0" y="89.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="200.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">Un aller-retour = deux virages à 180 degrés</text></svg><ol class="steps"><li>Deux cônes à 5 mètres l'un de l'autre.</li><li>Tu pars du cône D, tu vas jusqu'au deuxième, tu fais demi-tour, tu reviens.</li><li>Un aller-retour compte pour un passage et contient deux virages à 180 degrés.</li><li>Alterne le pied d'appui du demi-tour, une fois le droit, une fois le gauche.</li><li>C'est l'option sous-sol des séances de terrain, à partir de la semaine 5.</li></ol><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="diag"><h4>Le zigzag à 45 degrés</h4><div class="dsub">Quatre cônes en quinconce, espacés de 2 mètres le long du trajet. À chaque cône, tu changes de direction de 45 degrés. Ce sont les deux segments qui forment 45 degrés entre eux, pas la position du cône.</div><svg viewBox="0 0 350 222" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zigzag de quatre cones espaces de 2 metres, changement de direction de 45 degres a chaque cone"><line x1="34" y1="122.7" x2="308" y2="122.7" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="5 5"/><text x="312" y="126.2" fill="#475569" font-size="10.5" font-family="Arial,Helvetica,sans-serif">axe</text><line x1="78.6" y1="131.1" x2="130.9" y2="109.5" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="130.9,109.5 122.9,118.7 118.7,108.6" fill="#38bdf8"/><line x1="152.5" y1="114.3" x2="204.8" y2="135.9" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="204.8,135.9 192.6,136.8 196.8,126.6" fill="#38bdf8"/><line x1="226.5" y1="131.1" x2="278.7" y2="109.5" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon points="278.7,109.5 270.7,118.7 266.5,108.6" fill="#38bdf8"/><g><path d="M62.0,123.0 L54.5,138.0 L69.5,138.0 z" fill="#f59e0b"/><rect x="54.5" y="138.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M135.9,92.4 L128.4,107.4 L143.4,107.4 z" fill="#f59e0b"/><rect x="128.4" y="107.4" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M209.8,123.0 L202.3,138.0 L217.3,138.0 z" fill="#f59e0b"/><rect x="202.3" y="138.0" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><path d="M283.7,92.4 L276.2,107.4 L291.2,107.4 z" fill="#f59e0b"/><rect x="276.2" y="107.4" width="15" height="3" rx="1.5" fill="#b45309"/></g><g><rect x="117.7" y="56.4" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="137.9" y="73.6" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45°</text></g><g><rect x="191.6" y="161.0" width="40.4" height="26" rx="13" fill="#064e3b" stroke="#10b981" stroke-width="1.4"/><text x="211.8" y="178.2" fill="#6ee7b7" font-size="11.5" font-weight="700" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45°</text></g><g><line x1="71.9" y1="162.0" x2="145.9" y2="131.4" stroke="#475569" stroke-width="1"/><line x1="65.0" y1="145.2" x2="71.9" y2="162.0" stroke="#475569" stroke-width="1"/><line x1="138.9" y1="114.6" x2="145.9" y2="131.4" stroke="#475569" stroke-width="1"/><rect x="90.9" y="137.7" width="36" height="18" rx="4" fill="#0f172a"/><text x="108.9" y="151.2" fill="#cbd5e1" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">2 m</text></g><g><circle cx="36.0" cy="128.0" r="11" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1.8"/><text x="36.0" y="132.0" fill="#7dd3fc" font-size="11" font-weight="800" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">D</text></g><text x="175.0" y="216.0" fill="#64748b" font-size="11.5" text-anchor="middle" font-family="Arial,Helvetica,sans-serif">45 degrés, c'est l'écart entre deux segments</text></svg><ol class="steps"><li>Trace ton axe de course au sol. Place les cônes en alternance de chaque côté de cet axe, 2 mètres entre chaque le long du trajet.</li><li>Tu passes à côté de chaque cône, jamais par-dessus.</li><li>Le changement de direction se fait sur le pied extérieur, jamais sur le pied intérieur.</li><li>Sans ballon en semaine 5, ballon au pied à partir de la semaine 6.</li><li>C'est l'option sous-sol des séances de cuts à 45 degrés.</li></ol><div class="dlegend"><span><i style="background:#f59e0b"></i>Cône ou repère</span><span><i style="background:#38bdf8"></i>Ton trajet et son sens</span><span><i style="background:#10b981"></i>Angle du virage</span><span><i style="background:#0c4a6e;border:1px solid #38bdf8"></i>D = départ</span></div></div>
+<div class="info-box cyan">Un cône, c'est l'idéal, mais un soulier, une bouteille d'eau ou un bout de ruban adhésif font le travail. Ce qui compte, c'est que les repères soient au même endroit à chaque séance.</div>
+</section>
+<section class="panel" data-panel="2">
+<div class="info-box cyan">Les quatre premières semaines se font au sous-sol, les quatre suivantes sur le terrain. Chaque semaine ajoute un seul élément nouveau. La vitesse ne monte qu'à la semaine 7. Chaque séance de terrain a son option sous-sol, parce qu'en octobre la météo décide autant que le calendrier.</div>
+<div class="week-card"><div class="wk-header" style="background:#0ea5e922"><span class="wk-badge" style="background:#0ea5e9">S1</span><span class="wk-theme">Mesures de référence et maîtrise statique</span></div><div class="wk-body"><p class="wk-focus" style="color:#0ea5e9">Établir ton point de départ et remettre le pied sur le ballon. Aucun virage balle au pied cette semaine.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>7 au 13 septembre &middot; Sous-sol</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 séances de 30 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P8, P1, P7, P9</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#0ea5e922"><span class="wk-badge" style="background:#0ea5e9">S2</span><span class="wk-theme">Déplacement lent, ballon au pied</span></div><div class="wk-body"><p class="wk-focus" style="color:#0ea5e9">Le ballon se déplace avec toi, en ligne droite seulement. Toujours aucun virage balle au pied.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>14 au 20 septembre &middot; Sous-sol</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 séances de 30 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P8, P7, P9, P1</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#f59e0b22"><span class="wk-badge" style="background:#f59e0b">S3</span><span class="wk-theme">Premiers virages à 90 degrés, sans ballon</span></div><div class="wk-body"><p class="wk-focus" style="color:#f59e0b">Le virage arrive, mais sans ballon. Tu apprends l'appui avant d'y ajouter la contrainte technique.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>21 au 27 septembre &middot; Sous-sol</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 35 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P4, P1, P8, P9</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#f59e0b22"><span class="wk-badge" style="background:#f59e0b">S4</span><span class="wk-theme">Virages à 90 degrés balle au pied</span></div><div class="wk-body"><p class="wk-focus" style="color:#f59e0b">Le ballon rejoint le virage. Vitesse de marche rapide, jamais plus vite cette semaine.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>28 septembre au 4 octobre &middot; Sous-sol</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 35 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P4, P1, P8, P6, P9</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#10b98122"><span class="wk-badge" style="background:#10b981">S5</span><span class="wk-theme">Passage au terrain. Virages à 180 degrés sans ballon</span></div><div class="wk-body"><p class="wk-focus" style="color:#10b981">Le gazon change les appuis et te donne enfin de la distance. Le 180 arrive sans ballon, le 90 passe à vitesse de jogging avec ballon.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>5 au 11 octobre &middot; Terrain UQO ou Darcy McGee</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 40 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P4, P9, P1, P8, P2</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#10b98122"><span class="wk-badge" style="background:#10b981">S6</span><span class="wk-theme">Cuts à 45 degrés balle au pied. Le cardio passe par le ballon</span></div><div class="wk-body"><p class="wk-focus" style="color:#10b981">Le changement de direction à 45 degrés arrive avec le ballon, à vitesse contrôlée. Le circuit remplace la course.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>12 au 18 octobre &middot; Terrain</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 40 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P4, P2, P8, P6, P1, P9</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#6366f122"><span class="wk-badge" style="background:#6366f1">S7</span><span class="wk-theme">Première montée en vitesse</span></div><div class="wk-body"><p class="wk-focus" style="color:#6366f1">Première semaine où tu vas vite. Le 90 degrés balle au pied passe à vitesse élevée, le 180 reste contrôlé.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>19 au 25 octobre &middot; Terrain</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 45 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P4, P1, P8, P2, P9</span></div>
+</div></div>
+<div class="progression-connector">&darr;</div>
+<div class="week-card"><div class="wk-header" style="background:#6366f122"><span class="wk-badge" style="background:#6366f1">S8</span><span class="wk-theme">Intégration et reprise des mesures</span></div><div class="wk-body"><p class="wk-focus" style="color:#6366f1">Tout se met bout à bout, puis on remesure. Cette semaine se termine autour de ton rendez-vous avec l'orthopédiste.</p>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>26 octobre au 1er novembre &middot; Terrain et sous-sol</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>3 à 4 séances de 45 minutes</span></div>
+<div class="wk-detail"><span class="arrow">&rsaquo;</span><span>Éléments du physio mobilisés : P1, P2, P8, P9</span></div>
+</div></div>
+</section>
+<section class="panel" data-panel="3">
+<div class="info-box cyan">Quatre mesures, prises en semaine 1, reprises en semaine 8, puis en février. <strong>Tout se fait au sous-sol</strong>, jamais sur le terrain, et sans partenaire. C'est ce qui te permettra de les refaire à l'identique en plein hiver. Note chaque fois les conditions : surface, chaussures, moment de la journée.</div>
+<div class="test"><div class="th"><span class="tn">Test 1</span><span class="tt">Touches propres en 30 secondes</span></div><div class="tm">Matériel : Un ballon, un chronomètre, un carré d'un mètre marqué au sol</div><ol>
+<li>Semelles alternées sur place, dans le carré.</li>
+<li>Tu comptes uniquement les touches où le ballon reste dans le carré.</li>
+<li>Un seul essai, sans échauffement spécifique.</li>
+</ol><div class="tr">Ce que tu notes : Nombre de touches</div></div>
+<div class="test"><div class="th"><span class="tn">Test 2</span><span class="tt">Précision de passe à 6 mètres</span></div><div class="tm">Matériel : Un ballon, une cible d'un mètre de large au mur, un ruban à mesurer</div><ol>
+<li>10 passes du pied droit, puis 10 du pied gauche.</li>
+<li>Ballon arrêté à chaque tentative.</li>
+<li>Tu comptes les passes qui touchent la cible.</li>
+</ol><div class="tr">Ce que tu notes : Réussites sur 10, par pied</div></div>
+<div class="test"><div class="th"><span class="tn">Test 3</span><span class="tt">Boucle chronométrée, virages à 90 degrés</span></div><div class="tm">Matériel : Un ballon, 4 cônes, un chronomètre, un ruban à mesurer</div><ol>
+<li>Quatre cônes aux coins d'un rectangle de 5 mètres sur 3.</li>
+<li>Deux tours complets, ballon au pied, soit huit virages à 90 degrés.</li>
+<li>En semaine 1 : à vitesse de marche rapide seulement.</li>
+<li>En semaine 8 et en février : en trot.</li>
+<li>Deux essais, tu gardes le meilleur.</li>
+</ol><div class="tr">Ce que tu notes : Temps en secondes, avec la vitesse notée à côté</div></div>
+<div class="test"><div class="th"><span class="tn">Test 4</span><span class="tt">Frappe placée à 6 mètres</span></div><div class="tm">Matériel : Un ballon, une cible d'un mètre et demi au mur, un ruban à mesurer</div><ol>
+<li>10 frappes depuis 6 mètres, ballon arrêté.</li>
+<li>5 du pied droit, 5 du pied gauche.</li>
+<li>Cible à hauteur de genou ou plus bas. Aucune frappe haute au sous-sol.</li>
+<li>Tu comptes les frappes qui touchent la cible.</li>
+</ol><div class="tr">Ce que tu notes : Réussites sur 10, par pied</div></div>
+</section>
+<section class="panel" data-panel="4">
+<div class="info-box cyan">Chaque exercice de ce plan porte une étiquette verte. Elle renvoie à une phrase précise du courriel de ton physiothérapeute. Si un exercice n'a pas d'étiquette, c'est qu'il ne devrait pas être là : écris-moi.</div>
+<div class="quote">Tu peux retourner au sport par toi-même avec risque minime de re-blessure.<span class="src">Philippe Maheu, physiothérapeute sportif, PhysioOutaouais. Courriel du 3 septembre 2026.</span></div>
+<div class="legend">
+<div class="lrow"><span class="lc">P1</span><span class="lx">&laquo; Jogging avec tournants de 90, 180 et 360 degrés &raquo;</span></div>
+<div class="lrow"><span class="lc">P2</span><span class="lx">&laquo; Cuts à 45 degrés d'angle de changement de direction &raquo;</span></div>
+<div class="lrow"><span class="lc">P4</span><span class="lx">&laquo; Carioca à pleine vitesse &raquo;</span></div>
+<div class="lrow"><span class="lc">P6</span><span class="lx">&laquo; Drill de décision rapide de dernière minute &raquo;</span></div>
+<div class="lrow"><span class="lc">P7</span><span class="lx">&laquo; Retour au sport et renforcement du haut du corps sans restrictions &raquo;</span></div>
+<div class="lrow"><span class="lc">P8</span><span class="lx">&laquo; Tu peux retourner au sport par toi-même avec risque minime de re-blessure &raquo;</span></div>
+<div class="lrow"><span class="lc">P9</span><span class="lx">&laquo; Augmenter ton conditionnement cardiovasculaire, force, puissance, agilité et contrôle neuromusculaire, symétrie et stabilité &raquo;</span></div>
+</div>
+<h3 style="font-size:14px;font-weight:700;color:var(--text-hi);margin:20px 0 10px">Autorisé par ton physiothérapeute, mais absent de ce plan</h3>
+<div class="excl"><div class="et">Course sur surface inégale</div><div class="ex2">Autorisée par ton physiothérapeute, mais exclue du travail de balle. Un rebond imprévisible n'a pas sa place ici. Cet élément reste disponible pour ton plan physique.</div></div>
+<div class="excl"><div class="et">Sauts à un ou deux pieds avec contrôle</div><div class="ex2">Autorisés par ton physiothérapeute. Les sauts relèvent de la préparation physique, pas de la technique. Aucun saut avec réception balle au pied dans ce bloc.</div></div>
+<div class="excl"><div class="et">Tournants à 360 degrés</div><div class="ex2">Autorisés en course sans ballon. Jamais balle au pied dans ce bloc. On les rouvre après ton rendez-vous d'octobre.</div></div>
+<h3 style="font-size:14px;font-weight:700;color:var(--text-hi);margin:20px 0 10px">Ce qui ouvre la phase 2</h3>
+<div class="info-box cyan">Ton rendez-vous avec l'orthopédiste, à la fin octobre. C'est lui qui donnera le portrait à jour du ligament. Les situations de jeu, l'opposition et les duels restent fermés jusque-là. Ce n'est pas une question de forme : ta force est revenue. C'est une question de délai de cicatrisation.</div>
+</section>
+
+  <footer class="footer">
+    Plan technique individualisé, phase 1 &middot; ProBreakthrough Inc.<br>
+    Construit sur les directives écrites de Philippe Maheu, physiothérapeute sportif, 3 septembre 2026.<br>
+    Le volet physique fait l'objet d'un plan distinct.
+  </footer>
+</div>
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.panel');
+  tabs.forEach(function(b){
+    b.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      panels.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      document.querySelector('.panel[data-panel="'+b.dataset.tab+'"]').classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+  var wbs = document.querySelectorAll('.wk-btn');
+  var wblocks = document.querySelectorAll('.wk-block');
+  wbs.forEach(function(b){
+    b.addEventListener('click', function(){
+      wbs.forEach(function(x){ x.classList.remove('active'); });
+      wblocks.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      document.querySelector('.wk-block[data-wkb="'+b.dataset.wk+'"]').classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
